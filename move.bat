@@ -1,0 +1,1 @@
+copy /B fx-CG50SNAKEv2.g3a "F:/fx-CG50SNAKEv2.g3a"
