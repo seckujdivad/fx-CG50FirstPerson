@@ -1,0 +1,5 @@
+.vs/
+build/
+*.bin
+*.g3a
+Normal/
