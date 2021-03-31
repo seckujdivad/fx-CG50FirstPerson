@@ -35,6 +35,7 @@
     <NMakeIncludeSearchPath>../../include/</NMakeIncludeSearchPath>
     <AdditionalOptions>-nostdlib</AdditionalOptions>
     <NMakeOutput>move.bat</NMakeOutput>
+    <IncludePath>../../include/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
