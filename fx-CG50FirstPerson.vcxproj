@@ -45,7 +45,10 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\enable_if.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
