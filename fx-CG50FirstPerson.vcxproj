@@ -41,11 +41,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Maths.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\enable_if.h" />
+    <ClInclude Include="src\Maths.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Vector.h" />
