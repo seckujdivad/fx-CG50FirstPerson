@@ -49,6 +49,7 @@
     <ClInclude Include="src\enable_if.h" />
     <ClInclude Include="src\Maths.h" />
     <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Q_rsqrt.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\World.h" />
