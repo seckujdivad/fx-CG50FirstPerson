@@ -1,20 +1,31 @@
 #include <fxcg/display.h>
 #include <fxcg/keyboard.h>
 
+#include "World.h"
+
 int main()
 {
-    Bdisp_AllClr_VRAM();
-    Print_OS("Press EXE to exit", 0, 0);
+	Bdisp_AllClr_VRAM();
+	Print_OS("Press EXE to exit", 0, 0);
 
-    while (true)
-    {
-        int key;
-        GetKey(&key);
+	World<5, 5> world = {};
+	GenerateWorld(world,
+		"OOOOO"
+		"OOXOO"
+		"OXOXO"
+		"OOOOO"
+		"OOXOO"
+	);
 
-        if (key == KEY_CTRL_EXE) {
-            break;
-        }
-    }
+	while (true)
+	{
+		int key;
+		GetKey(&key);
 
-    return 0;
+		if (key == KEY_CTRL_EXE) {
+			break;
+		}
+	}
+
+	return 0;
 }
