@@ -1,6 +1,6 @@
 #pragma once
 
-#include "enable_if.h"
+#include "Q_rsqrt.h"
 
 template<typename BaseType, unsigned int dimensions>
 struct Vector
@@ -57,6 +57,21 @@ struct Vector
 	{
 		static_assert(dimensions > 2);
 		return this->values[2];
+	}
+
+	inline BaseType InverseLength() const
+	{
+		BaseType square_sum = BaseType(0);
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			square_sum += this->values[i] * this->values[i];
+		}
+		return Q_rsqrt(square_sum);
+	}
+
+	inline BaseType Length() const
+	{
+		return BaseType(1) / this->InverseLength();
 	}
 
 	Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs)
