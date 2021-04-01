@@ -2,6 +2,8 @@
 #include <fxcg/keyboard.h>
 
 #include "World.h"
+#include "Renderer.h"
+#include "Player.h"
 
 int main()
 {
@@ -16,6 +18,10 @@ int main()
 		"OOOOO"
 		"OOXOO"
 	);
+
+	Player player = { Vector<float, 2>(2.5f), 0.0f };
+
+	Render(world, player);
 
 	while (true)
 	{
