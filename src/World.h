@@ -19,7 +19,7 @@ using World = WorldRegion[X][Y];
 template<unsigned int X, unsigned int Y>
 inline void GenerateWorld(World<X, Y>& target, const char* generator)
 {
-	size_t generator_len = strlen(generator);
+	const size_t generator_len = strlen(generator);
 	if (generator_len < (X * Y)) //generator not long enough - do not attempt
 	{
 		for (size_t x = 0; x < X; x++)
