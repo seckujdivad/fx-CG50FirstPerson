@@ -74,7 +74,7 @@ struct Vector
 		return BaseType(1) / this->InverseLength();
 	}
 
-	Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs)
+	Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -84,7 +84,15 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs)
+	Vector<BaseType, dimensions> operator+=(const Vector<BaseType, dimensions>& rhs)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] += rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -94,7 +102,15 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs)
+	Vector<BaseType, dimensions> operator-=(const Vector<BaseType, dimensions>& rhs)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] -= rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -104,7 +120,15 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs)
+	Vector<BaseType, dimensions> operator*=(const Vector<BaseType, dimensions>& rhs)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] *= rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -112,5 +136,13 @@ struct Vector
 			result.values[i] /= rhs.values[i];
 		}
 		return result;
+	}
+
+	Vector<BaseType, dimensions> operator/=(const Vector<BaseType, dimensions>& rhs)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] /= rhs.values[i];
+		}
 	}
 };
