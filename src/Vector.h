@@ -7,39 +7,39 @@ struct Vector
 {
 	BaseType values[dimensions];
 
-	template<typename enable_if<(dimensions > 0), void>::type* = nullptr>
 	inline BaseType& GetX()
 	{
+		static_assert(dimensions > 0);
 		return this->values[0];
 	}
 
-	template<typename enable_if<(dimensions > 1), void>::type* = nullptr>
 	inline BaseType& GetY()
 	{
+		static_assert(dimensions > 1);
 		return this->values[1];
 	}
 
-	template<typename enable_if<(dimensions > 2), void>::type* = nullptr>
 	inline BaseType& GetZ()
 	{
+		static_assert(dimensions > 2);
 		return this->values[2];
 	}
 
-	template<typename enable_if<(dimensions > 0), void>::type* = nullptr>
 	inline const BaseType& GetX() const
 	{
+		static_assert(dimensions > 0);
 		return this->values[0];
 	}
 
-	template<typename enable_if<(dimensions > 1), void>::type* = nullptr>
 	inline const BaseType& GetY() const
 	{
+		static_assert(dimensions > 1);
 		return this->values[1];
 	}
 
-	template<typename enable_if<(dimensions > 2), void>::type* = nullptr>
 	inline const BaseType& GetZ() const
 	{
+		static_assert(dimensions > 2);
 		return this->values[2];
 	}
 };
