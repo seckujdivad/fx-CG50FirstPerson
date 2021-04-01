@@ -4,6 +4,12 @@
 
 constexpr float PI = 3.14159265359f;
 
+float floor(float x);
+float ceil(float x);
+
+float sin(float x);
+float cos(float x);
+
 inline constexpr int fact(int x)
 {
 	return x == 0 ? 1 : x * fact(x - 1);
@@ -30,17 +36,7 @@ inline constexpr float sin_constexpr(float x)
 	return x - (pow_constexpr(x, 3) / fact(3)) + (pow_constexpr(x, 5) / fact(5));
 }
 
-inline float sin(float x)
-{
-	return x - (pow(x, 3) / fact(3)) + (pow(x, 5) / fact(5));
-}
-
 inline constexpr float cos_constexpr(float x)
 {
 	return x - (pow_constexpr(x, 2) / fact(2)) + (pow_constexpr(x, 4) / fact(4));
-}
-
-inline float cos(float x)
-{
-	return x - (pow(x, 2) / fact(2)) + (pow(x, 4) / fact(4));
 }
