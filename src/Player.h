@@ -1,12 +1,9 @@
 #pragma once
 
+#include "Vector.h"
+
 struct Player
 {
-	struct Position
-	{
-		float x;
-		float y;
-	} position;
-
-	struct Rotation
+	Vector<float, 2> position;
+	float rotation;
 };
