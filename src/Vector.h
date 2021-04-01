@@ -5,6 +5,8 @@
 template<typename BaseType, unsigned int dimensions>
 struct Vector
 {
+	inline Vector() : Vector(BaseType(0)) {};
+
 	inline Vector(BaseType value)
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -18,6 +20,15 @@ struct Vector
 		for (unsigned int i = 0; i < dimensions; i++)
 		{
 			this->values[i] = values[i];
+		}
+	}
+
+	template<typename T>
+	inline Vector(const Vector<T, dimensions>& copy_from)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] = static_cast<BaseType>(copy_from.values[i]);
 		}
 	}
 
