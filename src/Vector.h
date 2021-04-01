@@ -5,6 +5,22 @@
 template<typename BaseType, unsigned int dimensions>
 struct Vector
 {
+	inline Vector(BaseType value)
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] = value;
+		}
+	}
+
+	inline Vector(BaseType values[dimensions])
+	{
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			this->values[i] = values[i];
+		}
+	}
+
 	BaseType values[dimensions];
 
 	inline BaseType& GetX()
@@ -41,5 +57,41 @@ struct Vector
 	{
 		static_assert(dimensions > 2);
 		return this->values[2];
+	}
+
+	Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs)
+	{
+		Vector<BaseType, dimensions> result = *this;
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			result.values[i] += rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs)
+	{
+		Vector<BaseType, dimensions> result = *this;
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			result.values[i] -= rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs)
+	{
+		Vector<BaseType, dimensions> result = *this;
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			result.values[i] *= rhs.values[i];
+		}
+	}
+
+	Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs)
+	{
+		Vector<BaseType, dimensions> result = *this;
+		for (unsigned int i = 0; i < dimensions; i++)
+		{
+			result.values[i] /= rhs.values[i];
+		}
 	}
 };
