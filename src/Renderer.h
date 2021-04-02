@@ -54,6 +54,4 @@ inline void Render(const World<X, Y>& world, const Player& player)
 			Bdisp_SetPoint_VRAM(x, y, colour);
 		}
 	}
-	
-	Bdisp_PutDisp_DD();
 }
