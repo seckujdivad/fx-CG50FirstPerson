@@ -14,13 +14,39 @@ float ceil(float x)
 float sin(float x)
 {
 	float x_ = fmod(x, 2.0f * PI);
-	return x_ - (pow(x_, 3) / fact(3)) + (pow(x_, 5) / fact(5));
+	if (x_ <= 0.5f * PI)
+	{
+		return x_ - (pow(x_, 3) / fact(3)) + (pow(x_, 5) / fact(5));
+	}
+	else if (x_ < PI)
+	{
+		return 0.0f - sin(PI - x_);
+	}
+	else
+	{
+		return 0.0f - sin(x_ - PI);
+	}
 }
 
 float cos(float x)
 {
 	float x_ = fmod(x, 2.0f * PI);
-	return x_ - (pow(x_, 2) / fact(2)) + (pow(x_, 4) / fact(4));
+	if (x_ <= 0.5f * PI)
+	{
+		return 1 - (pow(x_, 2) / fact(2)) + (pow(x_, 4) / fact(4));
+	}
+	else if (x_ < PI)
+	{
+		return 0.0f - cos(PI - x_);
+	}
+	else if (x_ < 1.5f * PI)
+	{
+		return 0.0f - cos(x_ - PI);
+	}
+	else// if (x_ <= 2.0f * PI)
+	{
+		return 0.0f - cos((2.0f * PI) - x_);
+	}
 }
 
 float fmod(float x, float y)
