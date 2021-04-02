@@ -160,4 +160,14 @@ struct Vector
 		}
 		return *this;
 	}
+
+	inline BaseType& operator[](int index)
+	{
+		return this->values[index];
+	}
+
+	inline const BaseType& operator[](int index) const
+	{
+		return this->values[index];
+	}
 };
