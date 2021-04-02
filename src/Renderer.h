@@ -33,7 +33,16 @@ inline void Render(const World<X, Y>& world, const Player& player)
 
 		color_t wall_colour = GetColour(SampleFromWorld(world, intersection));
 
-		float resultant_height = view_ray.InverseLength();
+		float resultant_height;
+		if ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
+		{
+			resultant_height = 1.0f;
+		}
+		else
+		{
+			resultant_height = view_ray.InverseLength();
+		}
+		
 		int wall_inset = static_cast<int>((1.0f - resultant_height) * SCREEN_HEIGHT_FL * 0.5f);
 
 		for (int y = BORDER_Y; y < LCD_HEIGHT_PX - BORDER_Y; y++)
