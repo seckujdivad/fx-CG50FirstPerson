@@ -130,7 +130,7 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 			Vector<float, 2> move_vecs[2];
 			move_vecs[0] = move_position[0] - current_pos;
 			move_vecs[1] = move_position[1] - current_pos;
-			if (move_vecs[0].Length() > move_vecs[1].Length()) //TODO: switch to more performant inverse length
+			if (move_vecs[0].InverseLength() < move_vecs[1].InverseLength())
 			{
 				current_pos = move_position[1];
 			}
