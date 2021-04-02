@@ -27,6 +27,21 @@ int main()
 	{
 		Render(world, player);
 
+		{
+			int rot_perc_x = LCD_WIDTH_PX * (player.rotation / (2.0f * PI));
+			for (int x = 0; x < LCD_WIDTH_PX; x++)
+			{
+				color_t colour = COLOR_WHITE;
+				if (x < rot_perc_x)
+				{
+					colour = COLOR_BLACK;
+				}
+				Bdisp_SetPoint_VRAM(x, LCD_HEIGHT_PX - 5, colour);
+			}
+		}
+
+		Bdisp_PutDisp_DD();
+
 		int key;
 		GetKey(&key);
 
@@ -53,6 +68,8 @@ int main()
 
 			player.position += increment;
 		}
+
+		player.rotation = fmod(player.rotation, PI * 2.0f);
 	}
 
 	return 0;
