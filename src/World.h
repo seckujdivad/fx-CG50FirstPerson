@@ -62,12 +62,22 @@ inline WorldRegion SampleFromWorld(const World<X, Y>& target, Vector<T, 2> sampl
 	}
 }
 
+struct WorldIntersection
+{
+	WorldIntersection(Vector<float, 2> position, WorldRegion region);
+
+	Vector<float, 2> position;
+	WorldRegion region;
+};
+
 template<unsigned int X, unsigned int Y>
-inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
+inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
 {
 	Vector<float, 2> unit_direction;
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
+
+	Vector<float, 2> small_direction = unit_direction * 0.01f;
 
 #if TRACE_MODE_ITERATIVE == 1
 	float unit_direction_scale = 0.4f;
@@ -140,9 +150,9 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 			}
 		}
 
-		current_region = SampleFromWorld(world, current_pos);
+		current_region = SampleFromWorld(world, current_pos + small_direction);
 #endif
 	}
 
-	return current_pos;
+	return WorldIntersection(current_pos, current_region);
 }

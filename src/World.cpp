@@ -8,3 +8,7 @@ WorldRegion GetWorldRegion(char world_region)
 	default: return WorldRegion::Air;
 	}
 }
+
+WorldIntersection::WorldIntersection(Vector<float, 2> position, WorldRegion region) : position(position), region(region)
+{
+}
