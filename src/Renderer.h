@@ -4,6 +4,7 @@
 
 #include "World.h"
 #include "Player.h"
+#include "Maths.h"
 
 color_t GetColour(WorldRegion region);
 
@@ -15,15 +16,22 @@ inline void Render(const World<X, Y>& world, const Player& player)
 	constexpr int SCREEN_HEIGHT = LCD_HEIGHT_PX - (2 * BORDER_Y);
 	constexpr float SCREEN_HEIGHT_FL = static_cast<float>(SCREEN_HEIGHT);
 
+	constexpr float FOV = PI * 0.5f;
+	constexpr float FOV_HALF = FOV * 0.5f;
+	float view_angle_start = player.rotation - FOV_HALF;
+	float view_angle_end = player.rotation + FOV_HALF;
+
 	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x++)
 	{
-		float line_height = 0.5f;
+		float view_angle_frac = static_cast<float>(x - BORDER_X) / static_cast<float>(LCD_WIDTH_PX - (2 * BORDER_X));
+		float view_angle = ((view_angle_end - view_angle_start) * view_angle_frac) + view_angle_start;
 
-		WorldRegion final_hit = WorldRegion::Black;
-		color_t wall_colour = GetColour(final_hit);
+		Vector<float, 2> intersection = FindFirstIntersection(world, player.position, view_angle);
+		Vector<float, 2> view_ray = intersection - player.position;
 
-		float casted_distance = 10.0f; //placeholder
-		float resultant_height = 1.0f / casted_distance;
+		color_t wall_colour = GetColour(SampleFromWorld(world, intersection));
+
+		float resultant_height = view_ray.InverseLength();
 		int wall_inset = static_cast<int>((1.0f - resultant_height) * SCREEN_HEIGHT_FL * 0.5f);
 
 		for (int y = BORDER_Y; y < LCD_HEIGHT_PX - BORDER_Y; y++)
