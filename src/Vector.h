@@ -101,6 +101,7 @@ struct Vector
 		{
 			this->values[i] += rhs.values[i];
 		}
+		return *this;
 	}
 
 	Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs) const
@@ -119,6 +120,7 @@ struct Vector
 		{
 			this->values[i] -= rhs.values[i];
 		}
+		return *this;
 	}
 
 	Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs) const
@@ -137,6 +139,7 @@ struct Vector
 		{
 			this->values[i] *= rhs.values[i];
 		}
+		return *this;
 	}
 
 	Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs) const
@@ -155,5 +158,6 @@ struct Vector
 		{
 			this->values[i] /= rhs.values[i];
 		}
+		return *this;
 	}
 };
