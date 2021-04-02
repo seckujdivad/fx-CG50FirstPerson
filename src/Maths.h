@@ -13,6 +13,8 @@ bool ispositive(float x);
 float fabs(float x);
 float copysign(float x, float y);
 
+float mix(float a, float b, float mixer);
+
 inline constexpr int fact(int x)
 {
 	return x == 0 ? 1 : x * fact(x - 1);

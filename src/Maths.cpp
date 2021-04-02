@@ -44,3 +44,8 @@ float copysign(float x, float y)
 {
 	return ispositive(x) == ispositive(y) ? x : -1.0f * x;
 }
+
+float mix(float a, float b, float mixer)
+{
+	return a + ((b - a) * mixer);
+}
