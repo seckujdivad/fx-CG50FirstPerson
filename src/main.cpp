@@ -32,13 +32,11 @@ int main()
 
 		if (key == KEY_CHAR_4)
 		{
-			player.rotation -= 0.25f;
-			Print_OS("-", 0, 0);
+			player.rotation += 0.25f;
 		}
 		else if (key == KEY_CHAR_6)
 		{
-			player.rotation += 0.25f;
-			Print_OS("+", 0, 0);
+			player.rotation -= 0.25f;
 		}
 		else if ((key == KEY_CHAR_8) || (key == KEY_CHAR_2))
 		{
