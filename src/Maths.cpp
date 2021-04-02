@@ -20,7 +20,7 @@ float sin(float x)
 	}
 	else if (x_ < PI)
 	{
-		return 0.0f - sin(PI - x_);
+		return sin(PI - x_);
 	}
 	else
 	{
@@ -39,13 +39,9 @@ float cos(float x)
 	{
 		return 0.0f - cos(PI - x_);
 	}
-	else if (x_ < 1.5f * PI)
-	{
-		return 0.0f - cos(x_ - PI);
-	}
 	else// if (x_ <= 2.0f * PI)
 	{
-		return 0.0f - cos((2.0f * PI) - x_);
+		return 0.0f - cos(x_ - PI);
 	}
 }
 
