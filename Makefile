@@ -32,7 +32,7 @@ INCLUDES	:=
 MKG3AFLAGS := -n basic:FirstPerson -i uns:../resources/unselected.bmp -i sel:../resources/selected.bmp
 
 CFLAGS	= -Os -Wall $(MACHDEP) $(INCLUDE) -ffunction-sections -fdata-sections 
-CXXFLAGS	=	$(CFLAGS)
+CXXFLAGS	=	$(CFLAGS) -fno-exceptions -fno-rtti
 
 LDFLAGS	= $(MACHDEP) -T$(FXCGSDK)/toolchain/prizm.x -Wl,-static -Wl,-gc-sections
 
