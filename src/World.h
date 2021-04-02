@@ -5,6 +5,8 @@
 #include "Vector.h"
 #include "Maths.h"
 
+#define TRACE_MODE_ITERATIVE 1
+
 enum class WorldRegion
 {
 	Air,
@@ -67,10 +69,27 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
 
+#if TRACE_MODE_ITERATIVE == 1
+	float unit_direction_scale = 0.4f;
+	Vector<float, 2> unit_direction_scaled = unit_direction * 0.1f;
+#endif
+
 	Vector<float, 2> current_pos = start_pos;
 	WorldRegion current_region = SampleFromWorld(world, current_pos);
 	while (current_region == WorldRegion::Air)
 	{
+#if TRACE_MODE_ITERATIVE == 1
+		current_pos += unit_direction_scaled;
+		current_region = SampleFromWorld(world, current_pos);
+
+		if ((current_region != WorldRegion::Air) && (unit_direction_scale > 0.005f))
+		{
+			current_pos -= unit_direction_scaled;
+			unit_direction_scale /= 2.0f;
+			unit_direction_scaled = unit_direction * unit_direction_scale;
+			current_region = SampleFromWorld(world, current_pos);
+		}
+#else
 		enum class Direction
 		{
 			Dir_X,
@@ -104,14 +123,21 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 
 		if (direction == Direction::Dir_X)
 		{
-			float target_x = ceil(current_pos.GetX());
+			float target_x = floor(current_pos.GetX());
+			if (target_x == current_pos.GetX())
+			{
+				target_x += ispositive(target_x) ? -1.0f : 1.0f;
+			}
+
+			float increment = (ispositive(unit_direction.GetX()) == ispositive(current_pos.GetX())) ? 1.0f : 0.0f;
+
 			if (unit_direction.GetX() > 0.0f)
 			{
-				target_x += 1.0f;
+				target_x += increment;
 			}
 			else
 			{
-				target_x -= 1.0f;
+				target_x -= increment;
 			}
 
 			float lambda = (target_x - start_pos.GetX()) / unit_direction.GetX();
@@ -122,14 +148,20 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 		}
 		else
 		{
-			float target_y = ceil(current_pos.GetY());
+			float target_y = floor(current_pos.GetY());
+			if (target_y == current_pos.GetY())
+			{
+				target_y += ispositive(target_y) ? -1.0f : 1.0f;
+			}
+
+			float increment = (ispositive(unit_direction.GetY()) == ispositive(current_pos.GetY())) ? 1.0f : 0.0f;
 			if (unit_direction.GetY() > 0.0f)
 			{
-				target_y += 1.0f;
+				target_y += increment;
 			}
 			else
 			{
-				target_y -= 1.0f;
+				target_y -= increment;
 			}
 
 			float lambda = (target_y - start_pos.GetY()) / unit_direction.GetY();
@@ -140,6 +172,7 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 		}
 
 		current_region = SampleFromWorld(world, current_pos);
+#endif
 	}
 
 	return current_pos;
