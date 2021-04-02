@@ -18,13 +18,15 @@ inline void Render(const World<X, Y>& world, const Player& player)
 
 	constexpr float FOV = PI * 0.5f;
 	constexpr float FOV_HALF = FOV * 0.5f;
-	float view_angle_start = player.rotation - FOV_HALF;
-	float view_angle_end = player.rotation + FOV_HALF;
+
+	//anticlockwise
+	float view_angle_start = player.rotation + FOV_HALF;
+	float view_angle_end = player.rotation - FOV_HALF;
 
 	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x++)
 	{
 		float view_angle_frac = static_cast<float>(x - BORDER_X) / static_cast<float>(LCD_WIDTH_PX - (2 * BORDER_X));
-		float view_angle = ((view_angle_end - view_angle_start) * view_angle_frac) + view_angle_start;
+		float view_angle = mix(view_angle_start, view_angle_end, view_angle_frac);
 
 		Vector<float, 2> intersection = FindFirstIntersection(world, player.position, view_angle);
 		Vector<float, 2> view_ray = intersection - player.position;
