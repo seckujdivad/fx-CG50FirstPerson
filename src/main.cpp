@@ -68,6 +68,11 @@ int main()
 
 			player.position += increment;
 		}
+		else if (key == KEY_CHAR_0)
+		{
+			player.position = Vector<float, 2>(2.5f);
+			player.rotation = 0.0f;
+		}
 
 		player.rotation = fmod(player.rotation, PI * 2.0f);
 	}
