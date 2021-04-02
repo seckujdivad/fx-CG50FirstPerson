@@ -27,14 +27,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Normal|Win32'">
-    <NMakeBuildCommandLine>make.bat</NMakeBuildCommandLine>
-    <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
-    <NMakeReBuildCommandLine>remake.bat</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>scripts/make.bat</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>scripts/clean.bat</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>scripts/remake.bat</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>
     </NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>../../include/</NMakeIncludeSearchPath>
     <AdditionalOptions>/X</AdditionalOptions>
-    <NMakeOutput>move.bat</NMakeOutput>
+    <NMakeOutput>scripts/move.bat</NMakeOutput>
     <IncludePath>../../include/</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
