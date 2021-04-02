@@ -5,7 +5,7 @@
 #include "Vector.h"
 #include "Maths.h"
 
-#define TRACE_MODE_ITERATIVE 1
+#define TRACE_MODE_ITERATIVE 0
 
 enum class WorldRegion
 {
@@ -90,85 +90,54 @@ inline Vector<float, 2> FindFirstIntersection(const World<X, Y>& world, Vector<f
 			current_region = SampleFromWorld(world, current_pos);
 		}
 #else
-		enum class Direction
+		/*
+		* calculate end positions if moving one cell in X or Y
+		* find the shorter segment and keep that one
+		*/
+
+		bool move_is_valid[2] = { false, false };
+		Vector<float, 2> move_position[2] = { 0.0f, 0.0f };
+
+		for (int i = 0; i < 2; i++)
 		{
-			Dir_X,
-			Dir_Y
-		} direction = Direction::Dir_X;
-		if (unit_direction.GetX() == 0.0f)
-		{
-			direction = Direction::Dir_Y;
+			int other_index = (i + 1) % 2;
+			if (unit_direction[i] == 0.0f)
+			{
+				move_is_valid[i] = false;
+			}
+			else
+			{
+				move_is_valid[i] = true;
+
+				float move_increment = unit_direction[i];
+				move_position[i][i] = floor(current_pos[i] + copysign(1.0f, move_increment));
+
+				float lambda = (move_position[i][i] - start_pos[i]) / unit_direction[i];
+				move_position[i][other_index] = (lambda * unit_direction[other_index]) + start_pos[other_index];
+			}
 		}
-		else if (unit_direction.GetY() == 0.0f)
+
+		if (!move_is_valid[0])
 		{
-			direction = Direction::Dir_X;
+			current_pos = move_position[1];
+		}
+		else if (!move_is_valid[1])
+		{
+			current_pos = move_position[0];
 		}
 		else
 		{
-			float target_x = ceil(current_pos.GetX());
-			float target_y = ceil(current_pos.GetY());
-
-			float x_lambda_increment = fabs(target_x / unit_direction.GetX());
-			float y_lambda_increment = fabs(target_y / unit_direction.GetY());
-
-			if (x_lambda_increment > y_lambda_increment)
+			Vector<float, 2> move_vecs[2];
+			move_vecs[0] = move_position[0] - current_pos;
+			move_vecs[1] = move_position[1] - current_pos;
+			if (move_vecs[0].Length() > move_vecs[1].Length()) //TODO: switch to more performant inverse length
 			{
-				direction = Direction::Dir_Y;
+				current_pos = move_position[1];
 			}
 			else
 			{
-				direction = Direction::Dir_X;
+				current_pos = move_position[0];
 			}
-		}
-
-		if (direction == Direction::Dir_X)
-		{
-			float target_x = floor(current_pos.GetX());
-			if (target_x == current_pos.GetX())
-			{
-				target_x += ispositive(target_x) ? -1.0f : 1.0f;
-			}
-
-			float increment = (ispositive(unit_direction.GetX()) == ispositive(current_pos.GetX())) ? 1.0f : 0.0f;
-
-			if (unit_direction.GetX() > 0.0f)
-			{
-				target_x += increment;
-			}
-			else
-			{
-				target_x -= increment;
-			}
-
-			float lambda = (target_x - start_pos.GetX()) / unit_direction.GetX();
-			float target_y = (lambda * unit_direction.GetY()) + start_pos.GetY();
-
-			current_pos.GetX() = target_x;
-			current_pos.GetY() = target_y;
-		}
-		else
-		{
-			float target_y = floor(current_pos.GetY());
-			if (target_y == current_pos.GetY())
-			{
-				target_y += ispositive(target_y) ? -1.0f : 1.0f;
-			}
-
-			float increment = (ispositive(unit_direction.GetY()) == ispositive(current_pos.GetY())) ? 1.0f : 0.0f;
-			if (unit_direction.GetY() > 0.0f)
-			{
-				target_y += increment;
-			}
-			else
-			{
-				target_y -= increment;
-			}
-
-			float lambda = (target_y - start_pos.GetY()) / unit_direction.GetY();
-			float target_x = (lambda * unit_direction.GetX()) + start_pos.GetX();
-			
-			current_pos.GetX() = target_x;
-			current_pos.GetY() = target_y;
 		}
 
 		current_region = SampleFromWorld(world, current_pos);
