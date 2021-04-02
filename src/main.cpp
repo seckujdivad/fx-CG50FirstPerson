@@ -12,9 +12,9 @@ int main()
 
 	World<5, 5> world = {};
 	GenerateWorld(world,
-		"OOOOO"
 		"OOXOO"
-		"OXOXO"
+		"OOOOO"
+		"XOOOX"
 		"OOOOO"
 		"OOXOO"
 	);
