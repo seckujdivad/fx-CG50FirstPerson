@@ -62,6 +62,15 @@ inline WorldRegion SampleFromWorld(const World<X, Y>& target, Vector<T, 2> sampl
 	}
 }
 
+struct BoxIntersection
+{
+	float entry_lambda = 0.0f;
+	float exit_lambda = 0.0f;
+	bool has_values = false;
+};
+
+BoxIntersection FindIntersection(Vector<float, 2> start_pos, Vector<float, 2> unit_direction, int box_x, int box_y);
+
 struct WorldIntersection
 {
 	WorldIntersection(Vector<float, 2> position, WorldRegion region);
