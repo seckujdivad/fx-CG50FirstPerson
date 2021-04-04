@@ -15,6 +15,44 @@ float copysign(float x, float y);
 
 float mix(float a, float b, float mixer);
 
+enum class Comparison
+{
+	LessThan,
+	GreaterThan,
+	LessThanEqual,
+	GreaterThanEqual,
+};
+
+template<typename T>
+inline bool compare(T first, T second, Comparison comparison)
+{
+	switch (comparison)
+	{
+	case Comparison::LessThan: return first < second;
+	case Comparison::GreaterThan: return first > second;
+	case Comparison::LessThanEqual: return first <= second;
+	case Comparison::GreaterThanEqual: return first >= second;
+	default: return false;
+	}
+}
+
+template<typename T>
+inline T clamp(T value, T smallest, T greatest)
+{
+	if (smallest > value)
+	{
+		return smallest;
+	}
+	else if (value > greatest)
+	{
+		return greatest;
+	}
+	else
+	{
+		return value;
+	}
+}
+
 inline constexpr int fact(int x)
 {
 	return x == 0 ? 1 : x * fact(x - 1);
