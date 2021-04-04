@@ -48,17 +48,19 @@ inline void GenerateWorld(World<X, Y>& target, const char* generator)
 template<unsigned int X, unsigned int Y, typename T>
 inline WorldRegion SampleFromWorld(const World<X, Y>& target, Vector<T, 2> sample)
 {
-	Vector<int, 2> position = 0;
-	position.GetX() = static_cast<int>(sample.GetX());
-	position.GetY() = static_cast<int>(sample.GetY());
+	return SampleFromWorld(target, static_cast<int>(sample.GetX()), static_cast<int>(sample.GetY()));
+}
 
-	if ((position.GetX() < 0) || (position.GetX() >= static_cast<int>(X)) || (position.GetY() < 0) || (position.GetY() >= static_cast<int>(Y)))
+template<unsigned int X, unsigned int Y>
+inline WorldRegion SampleFromWorld(const World<X, Y>& target, int x, int y)
+{
+	if ((x < 0) || (x >= static_cast<int>(X)) || (y < 0) || (y >= static_cast<int>(Y)))
 	{
 		return WorldRegion::OutOfRange;
 	}
 	else
 	{
-		return target[position.GetX()][position.GetY()];
+		return target[x][y];
 	}
 }
 
