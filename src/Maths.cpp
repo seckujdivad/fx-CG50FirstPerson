@@ -8,7 +8,7 @@ float floor(float x)
 float ceil(float x)
 {
 	float floored = floor(x);
-	return floored == x ? x : ((floored > 0.0f) ? floored + 1.0f : floored - 1.0f);
+	return floored == x ? x : (ispositive(floored) ? floored + 1.0f : floored - 1.0f);
 }
 
 float sin(float x)
