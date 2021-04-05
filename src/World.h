@@ -5,7 +5,7 @@
 #include "Vector.h"
 #include "Maths.h"
 
-#define TRACE_MODE_ITERATIVE 0
+#define ITERATIVE_TRACE 0
 
 enum class WorldRegion
 {
@@ -88,82 +88,72 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
 
-	Vector<float, 2> small_direction = unit_direction * 0.01f;
+#if ITERATIVE_TRACE == 1
+	float lambda = 0.0f;
+	constexpr float lambda_increment = 0.05f;
+	constexpr float max_lambda = 10.0f;
 
-#if TRACE_MODE_ITERATIVE == 1
-	float unit_direction_scale = 0.4f;
-	Vector<float, 2> unit_direction_scaled = unit_direction * 0.1f;
-#endif
-
+	WorldRegion current_region = WorldRegion::Air;
 	Vector<float, 2> current_pos = start_pos;
-	WorldRegion current_region = SampleFromWorld(world, current_pos);
-	while (current_region == WorldRegion::Air)
+
+	while (lambda < max_lambda && current_region == WorldRegion::Air)
 	{
-#if TRACE_MODE_ITERATIVE == 1
-		current_pos += unit_direction_scaled;
+		lambda += lambda_increment;
+
+		current_pos = (unit_direction * lambda) + start_pos;
 		current_region = SampleFromWorld(world, current_pos);
-
-		if ((current_region != WorldRegion::Air) && (unit_direction_scale > 0.005f))
-		{
-			current_pos -= unit_direction_scaled;
-			unit_direction_scale /= 2.0f;
-			unit_direction_scaled = unit_direction * unit_direction_scale;
-			current_region = SampleFromWorld(world, current_pos);
-		}
-#else
-		/*
-		* calculate end positions if moving one cell in X or Y
-		* find the shorter segment and keep that one
-		*/
-
-		bool move_is_valid[2] = { false, false };
-		Vector<float, 2> move_position[2] = { 0.0f, 0.0f };
-
-		for (int i = 0; i < 2; i++)
-		{
-			int other_index = (i + 1) % 2;
-			if (unit_direction[i] == 0.0f)
-			{
-				move_is_valid[i] = false;
-			}
-			else
-			{
-				move_is_valid[i] = true;
-
-				float move_increment = unit_direction[i];
-				move_position[i][i] = floor(current_pos[i] + copysign(1.0f, move_increment));
-
-				float lambda = (move_position[i][i] - start_pos[i]) / unit_direction[i];
-				move_position[i][other_index] = (lambda * unit_direction[other_index]) + start_pos[other_index];
-			}
-		}
-
-		if (!move_is_valid[0])
-		{
-			current_pos = move_position[1];
-		}
-		else if (!move_is_valid[1])
-		{
-			current_pos = move_position[0];
-		}
-		else
-		{
-			Vector<float, 2> move_vecs[2];
-			move_vecs[0] = move_position[0] - current_pos;
-			move_vecs[1] = move_position[1] - current_pos;
-			if (move_vecs[0].InverseLength() < move_vecs[1].InverseLength())
-			{
-				current_pos = move_position[1];
-			}
-			else
-			{
-				current_pos = move_position[0];
-			}
-		}
-
-		current_region = SampleFromWorld(world, current_pos + small_direction);
-#endif
 	}
 
 	return WorldIntersection(current_pos, current_region);
+
+#else
+
+	int major = (unit_direction.GetX() > unit_direction.GetY()) ? 0 : 1;
+	int minor = (major + 1) % 2;
+
+	constexpr int DIMENSIONS_TABLE[2] = { X, Y };
+
+	int inc_minor = ispositive(unit_direction[minor]) ? 1 : -1;
+	int inc_major = ispositive(unit_direction[major]) ? 1 : -1;
+
+	Comparison minor_comparison = ispositive(inc_minor) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
+	Comparison major_comparison = ispositive(inc_major) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
+
+	int start_minor = static_cast<int>(round_direction(start_pos[minor], !ispositive(inc_minor)));
+	int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] : -1;
+
+	int start_major = static_cast<int>(round_direction(start_pos[major], !ispositive(inc_major)));
+
+	//adapted dda
+	for (int current_minor = start_minor; compare(current_minor, end_minor, minor_comparison); current_minor += inc_minor)
+	{
+		float end_lambda = (static_cast<float>(current_minor + inc_minor) - start_pos[minor]) / unit_direction[minor];
+		float end_major_fl = (end_lambda * unit_direction[major]) + start_pos[major];
+		int end_major = static_cast<int>(round_direction(end_major_fl, ispositive(inc_major)));
+
+		//clamp to range
+		end_major = clamp(end_major, -1, DIMENSIONS_TABLE[major]);
+		
+		for (int current_major = start_major; compare(current_major, end_major, major_comparison); current_major += inc_major)
+		{
+			int sampler[2] = { 0, 0 };
+			sampler[major] = current_major;
+			sampler[minor] = current_minor;
+
+			WorldRegion current_region = SampleFromWorld(world, sampler[0], sampler[1]);
+
+			if (current_region != WorldRegion::Air)
+			{
+				BoxIntersection intersections = FindIntersection(start_pos, unit_direction, sampler[0], sampler[1]);
+				if (intersections.has_values)
+				{
+					return WorldIntersection((unit_direction * intersections.entry_lambda) + start_pos, current_region);
+				}
+			}
+		}
+		start_major = end_major;
+	}
+
+	return WorldIntersection(start_pos, WorldRegion::Air);
+#endif
 }
