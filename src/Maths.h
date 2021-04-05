@@ -15,6 +15,9 @@ float copysign(float x, float y);
 
 float mix(float a, float b, float mixer);
 
+float round_direction(float value, bool upwards);
+float round_direction(float to_round, float reference, bool round_away);
+
 enum class Comparison
 {
 	LessThan,

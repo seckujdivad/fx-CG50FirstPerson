@@ -71,3 +71,13 @@ float mix(float a, float b, float mixer)
 {
 	return a + ((b - a) * mixer);
 }
+
+float round_direction(float value, bool upwards)
+{
+	return (upwards != ispositive(value)) ? floor(value) : ceil(value);
+}
+
+float round_direction(float to_round, float reference, bool round_away)
+{
+	return round_direction(to_round, (to_round < reference) != round_away);
+}
