@@ -16,7 +16,7 @@ float sin(float x)
 	float x_ = fmod(x, 2.0f * PI);
 	if (x_ <= 0.5f * PI)
 	{
-		return x_ - (pow(x_, 3) / fact(3)) + (pow(x_, 5) / fact(5));// - (pow(x_, 7) / fact(7));
+		return x_ - (pow(x_, 3) / fact(3)) + (pow(x_, 5) / fact(5));
 	}
 	else if (x_ < PI)
 	{
@@ -33,7 +33,7 @@ float cos(float x)
 	float x_ = fmod(x, 2.0f * PI);
 	if (x_ <= 0.5f * PI)
 	{
-		return 1 - (pow(x_, 2) / fact(2)) + (pow(x_, 4) / fact(4));// - (pow(x_, 6) / fact(6));
+		return 1 - (pow(x_, 2) / fact(2)) + (pow(x_, 4) / fact(4));
 	}
 	else if (x_ < PI)
 	{
@@ -47,9 +47,8 @@ float cos(float x)
 
 float fmod(float x, float y)
 {
-	float div = x / y;
-	float z = x > 0.0f ? floor(div) : ceil(div);
-	return x - (z * y);
+	float transformed_x = ispositive(x) ? x : y + x;
+	return (transformed_x - floor(transformed_x / y) * y);
 }
 
 bool ispositive(float x)
