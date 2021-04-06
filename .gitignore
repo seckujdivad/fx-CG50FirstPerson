@@ -3,3 +3,4 @@ build/
 *.bin
 *.g3a
 Normal/
+scripts/calc_path.txt
