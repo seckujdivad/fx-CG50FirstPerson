@@ -11,6 +11,7 @@ enum class WorldRegion
 {
 	Air,
 	OutOfRange,
+	Error,
 	Black
 };
 
@@ -148,6 +149,13 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 				if (intersections.has_values)
 				{
 					return WorldIntersection((unit_direction * intersections.entry_lambda) + start_pos, current_region);
+				}
+				else
+				{
+					Vector<float, 2> pos;
+					pos.GetX() = static_cast<float>(sampler[0]);
+					pos.GetY() = static_cast<float>(sampler[1]);
+					return WorldIntersection(pos, WorldRegion::Error);
 				}
 			}
 		}
