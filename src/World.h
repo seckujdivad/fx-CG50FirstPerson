@@ -108,27 +108,27 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 
 #else
 
-	int major = (fabs(unit_direction.GetX()) > fabs(unit_direction.GetY())) ? 0 : 1;
-	int minor = (major + 1) % 2;
+	const int major = (fabs(unit_direction.GetX()) > fabs(unit_direction.GetY())) ? 0 : 1;
+	const int minor = (major + 1) % 2;
 
 	constexpr int DIMENSIONS_TABLE[2] = { X, Y };
 
-	int inc_minor = ispositive(unit_direction[minor]) ? 1 : -1;
-	int inc_major = ispositive(unit_direction[major]) ? 1 : -1;
+	const int inc_minor = ispositive(unit_direction[minor]) ? 1 : -1;
+	const int inc_major = ispositive(unit_direction[major]) ? 1 : -1;
 
-	Comparison minor_comparison = ispositive(inc_minor) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
-	Comparison major_comparison = ispositive(inc_major) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
+	const Comparison minor_comparison = ispositive(inc_minor) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
+	const Comparison major_comparison = ispositive(inc_major) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
 
-	int start_minor = static_cast<int>(round_direction(start_pos[minor], !ispositive(inc_minor)));
-	int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] : -1;
+	const int start_minor = static_cast<int>(round_direction(start_pos[minor], !ispositive(inc_minor)));
+	const int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] : -1;
 
 	int start_major = static_cast<int>(round_direction(start_pos[major], !ispositive(inc_major)));
 
 	//adapted dda
 	for (int current_minor = start_minor; compare(current_minor, end_minor, minor_comparison); current_minor += inc_minor)
 	{
-		float end_lambda = (static_cast<float>(current_minor + inc_minor) - start_pos[minor]) / unit_direction[minor];
-		float end_major_fl = (end_lambda * unit_direction[major]) + start_pos[major];
+		const float end_lambda = (static_cast<float>(current_minor + inc_minor) - start_pos[minor]) / unit_direction[minor];
+		const float end_major_fl = (end_lambda * unit_direction[major]) + start_pos[major];
 		int end_major = static_cast<int>(round_direction(end_major_fl, ispositive(inc_major)));
 
 		//clamp to range
@@ -140,11 +140,11 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 			sampler[major] = current_major;
 			sampler[minor] = current_minor;
 
-			WorldRegion current_region = SampleFromWorld(world, sampler[0], sampler[1]);
+			const WorldRegion current_region = SampleFromWorld(world, sampler[0], sampler[1]);
 
 			if (current_region != WorldRegion::Air)
 			{
-				BoxIntersection intersections = FindIntersection(start_pos, unit_direction, sampler[0], sampler[1]);
+				const BoxIntersection intersections = FindIntersection(start_pos, unit_direction, sampler[0], sampler[1]);
 				if (intersections.has_values)
 				{
 					return WorldIntersection((unit_direction * intersections.entry_lambda) + start_pos, current_region);
