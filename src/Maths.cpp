@@ -39,7 +39,7 @@ float cos(float x)
 	{
 		return 0.0f - cos(PI - x_);
 	}
-	else// if (x_ <= 2.0f * PI)
+	else
 	{
 		return 0.0f - cos(x_ - PI);
 	}
