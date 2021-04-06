@@ -13,7 +13,7 @@ BoxIntersection FindIntersection(Vector<float, 2> start_pos, Vector<float, 2> un
 {
 	float lambdas[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	bool valid_lambdas[4] = { false, false, false, false };
-	float pinned_values[4] = {
+	const float pinned_values[4] = {
 		static_cast<float>(box_x),
 		static_cast<float>(box_x + 1),
 		static_cast<float>(box_y),
@@ -22,15 +22,15 @@ BoxIntersection FindIntersection(Vector<float, 2> start_pos, Vector<float, 2> un
 
 	for (int i = 0; i < 4; i++)
 	{
-		float pinned_value = pinned_values[i];
+		const float pinned_value = pinned_values[i];
 
-		int pinned_axis_index = i / 2;
-		int other_axis_index = (pinned_axis_index + 1) % 2;
+		const int pinned_axis_index = i / 2;
+		const int other_axis_index = (pinned_axis_index + 1) % 2;
 
-		if (fabs(unit_direction[pinned_axis_index]) > 0.0f)
+		if (unit_direction[pinned_axis_index] != 0.0f)
 		{
 			lambdas[i] = (pinned_value - start_pos[pinned_axis_index]) / unit_direction[pinned_axis_index];
-			float other_value = (lambdas[i] * unit_direction[other_axis_index]) + start_pos[other_axis_index];
+			const float other_value = (lambdas[i] * unit_direction[other_axis_index]) + start_pos[other_axis_index];
 			if ((pinned_values[other_axis_index * 2] <= other_value) && (other_value <= pinned_values[(other_axis_index * 2) + 1]))
 			{
 				valid_lambdas[i] = true;
