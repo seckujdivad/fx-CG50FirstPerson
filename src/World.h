@@ -120,7 +120,7 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	const Comparison major_comparison = ispositive(inc_major) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
 
 	const int start_minor = static_cast<int>(round_direction(start_pos[minor], !ispositive(inc_minor)));
-	const int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] : -1;
+	const int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] - 1 : 0;
 
 	int start_major = static_cast<int>(round_direction(start_pos[major], !ispositive(inc_major)));
 

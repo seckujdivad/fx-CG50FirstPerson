@@ -27,7 +27,7 @@ BoxIntersection FindIntersection(Vector<float, 2> start_pos, Vector<float, 2> un
 		int pinned_axis_index = i / 2;
 		int other_axis_index = (pinned_axis_index + 1) % 2;
 
-		if (fabs(unit_direction[pinned_axis_index]) > 0.001f)
+		if (fabs(unit_direction[pinned_axis_index]) > 0.0f)
 		{
 			lambdas[i] = (pinned_value - start_pos[pinned_axis_index]) / unit_direction[pinned_axis_index];
 			float other_value = (lambdas[i] * unit_direction[other_axis_index]) + start_pos[other_axis_index];
