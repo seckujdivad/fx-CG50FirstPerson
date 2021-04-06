@@ -108,7 +108,7 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 
 #else
 
-	int major = (unit_direction.GetX() > unit_direction.GetY()) ? 0 : 1;
+	int major = (fabs(unit_direction.GetX()) > fabs(unit_direction.GetY())) ? 0 : 1;
 	int minor = (major + 1) % 2;
 
 	constexpr int DIMENSIONS_TABLE[2] = { X, Y };
