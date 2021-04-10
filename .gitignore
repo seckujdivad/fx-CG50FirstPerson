@@ -4,3 +4,6 @@ build/
 *.g3a
 Normal/
 scripts/calc_path.txt
+
+Debug/*
+WinTestbed/Debug/*
