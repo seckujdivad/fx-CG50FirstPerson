@@ -68,6 +68,21 @@ BoxIntersection FindIntersection(Vector<float, 2> start_pos, Vector<float, 2> un
 	return result;
 }
 
+Intersection CalculateIntersection(Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float pinned_value, bool pinned_is_x)
+{
+	const int PINNED = pinned_is_x ? 0 : 1;
+	const int UNPINNED = pinned_is_x ? 1 : 0;
+
+	float lambda = (pinned_value - start_pos[PINNED]) / unit_direction[PINNED];
+	lambda += 0.01f;
+
+	Vector<float, 2> vec;
+	vec[PINNED] = (lambda * unit_direction[PINNED]) + start_pos[PINNED];
+	vec[UNPINNED] = (lambda * unit_direction[UNPINNED]) + start_pos[UNPINNED];
+
+	return { vec, lambda };
+}
+
 WorldIntersection::WorldIntersection(Vector<float, 2> position, WorldRegion region) : position(position), region(region)
 {
 }

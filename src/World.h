@@ -82,18 +82,20 @@ struct WorldIntersection
 	WorldRegion region;
 };
 
+struct Intersection
+{
+	Vector<float, 2> point = 0.0f;
+	float lambda = 0.0f;
+};
+
+Intersection CalculateIntersection(Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float pinned_value, bool pinned_is_x);
+
 template<unsigned int X, unsigned int Y>
 inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
 {
 	Vector<float, 2> unit_direction;
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
-
-	struct Intersection
-	{
-		Vector<float, 2> point;
-		float lambda = 0.0f;
-	};
 
 	List<Intersection> intersections_x;
 	{
@@ -105,16 +107,10 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 		{
 			for (float x = start_x; compare(x, end_x, comp); x += inc_x)
 			{
-				float lambda = (x - start_pos.GetX()) / unit_direction.GetX();
-				if (lambda > 0.0f)
+				Intersection intersection = CalculateIntersection(start_pos, unit_direction, x, true);
+				if (intersection.lambda > 0.0f)
 				{
-					lambda += 0.01f;
-
-					Vector<float, 2> vec;
-					vec.GetX() = (lambda * unit_direction.GetX()) + start_pos.GetX();
-					vec.GetY() = (lambda * unit_direction.GetY()) + start_pos.GetY();
-
-					intersections_x.Append({ vec, lambda });
+					intersections_x.Append(intersection);
 				}
 			}
 		}
@@ -130,16 +126,10 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 		{
 			for (float y = start_y; compare(y, end_y, comp); y += inc_y)
 			{
-				float lambda = (y - start_pos.GetY()) / unit_direction.GetY();
-				if (lambda > 0.0f)
+				Intersection intersection = CalculateIntersection(start_pos, unit_direction, y, false);
+				if (intersection.lambda > 0.0f)
 				{
-					lambda += 0.01f;
-
-					Vector<float, 2> vec;
-					vec.GetX() = (lambda * unit_direction.GetX()) + start_pos.GetX();
-					vec.GetY() = (lambda * unit_direction.GetY()) + start_pos.GetY();
-
-					intersections_y.Append({ vec, lambda });
+					intersections_y.Append(intersection);
 				}
 			}
 		}
