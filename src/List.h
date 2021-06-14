@@ -2,8 +2,9 @@
 
 #include <stdlib.h>
 
+#include <fxcg/heap.h>
+
 #include "rvalue_refs.h"
-#include "operator_new.h"
 
 template<typename T>
 class ListNode
@@ -81,6 +82,19 @@ public:
 		}
 		return this->m_child;
 	}
+
+	inline void* operator new(size_t size)
+	{
+		return sys_malloc(size);
+	}
+
+	inline void operator delete(void* ptr)
+	{
+		if (ptr != nullptr)
+		{
+			sys_free(ptr);
+		}
+	}
 };
 
 template<typename T>
@@ -97,7 +111,7 @@ public:
 		*this = copy_from;
 	}
 
-	inline List& operator=(const List & copy_from)
+	inline List& operator=(const List& copy_from)
 	{
 		if (copy_from.m_child == nullptr)
 		{
@@ -185,5 +199,18 @@ public:
 			node = node->GetChild();
 		}
 		return node->GetValue();
+	}
+
+	inline void* operator new(size_t size)
+	{
+		return sys_malloc(size);
+	}
+
+	inline void operator delete(void* ptr)
+	{
+		if (ptr != nullptr)
+		{
+			sys_free(ptr);
+		}
 	}
 };
