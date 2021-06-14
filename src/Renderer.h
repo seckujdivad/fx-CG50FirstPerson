@@ -14,7 +14,10 @@ inline void Render(const World<X, Y>& world, const Player& player)
 {
 	constexpr int BORDER_X = 20;
 	constexpr int BORDER_Y = 20;
+
 	constexpr int SCREEN_HEIGHT = LCD_HEIGHT_PX - (2 * BORDER_Y);
+	constexpr int SCREEN_WIDTH = LCD_WIDTH_PX - (2 * BORDER_X);
+	
 	constexpr float SCREEN_HEIGHT_FL = static_cast<float>(SCREEN_HEIGHT);
 
 	constexpr float FOV = PI * 0.5f;
