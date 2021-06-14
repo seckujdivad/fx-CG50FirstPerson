@@ -6,6 +6,10 @@
 #include "Player.h"
 #include "Maths.h"
 
+/* CPU: https://en.wikipedia.org/wiki/SuperH#SH-4_2
+* PrizmSDK: https://prizm.cemetech.net/index.php?title=Prizm_Programming_Portal
+*/
+
 int main()
 {
 	Bdisp_AllClr_VRAM();
