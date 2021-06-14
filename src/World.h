@@ -4,7 +4,6 @@
 
 #include "Vector.h"
 #include "Maths.h"
-#include "List.h"
 
 enum class WorldRegion
 {
@@ -90,6 +89,8 @@ struct Intersection
 
 Intersection CalculateIntersection(Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float pinned_value, bool pinned_is_x);
 
+bool GotoNext(Intersection& next_intersection, float& current, Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float start, float end, bool inc_is_x);
+
 template<unsigned int X, unsigned int Y>
 inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
 {
@@ -97,83 +98,66 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
 
-	List<Intersection> intersections_x;
+	//set up loop bounds and loop data
+	float start_x = clamp_direction(start_pos.GetX(), !ispositive(unit_direction.GetX()));
+	float end_x = ispositive(unit_direction.GetX()) ? X : 0.0f;
+	float current_x = start_x;
+	Intersection intersection_x = CalculateIntersection(start_pos, unit_direction, current_x, true);
+	bool valid_x = true;
+
+	float start_y = clamp_direction(start_pos.GetY(), !ispositive(unit_direction.GetY()));
+	float end_y = ispositive(unit_direction.GetY()) ? Y : 0.0f;
+	float current_y = start_y;
+	Intersection intersection_y = CalculateIntersection(start_pos, unit_direction, current_y, false);
+	bool valid_y = true;
+
+	//ensure lambda > 0
+	if (intersection_x.lambda <= 0.0f)
 	{
-		float start_x = clamp_direction(start_pos.GetX(), !ispositive(unit_direction.GetX()));
-		float end_x = ispositive(unit_direction.GetX()) ? X : 0.0f;
-		float inc_x = (end_x > start_x) ? 1.0f : -1.0f;
-		Comparison comp = (end_x > start_x) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
-		if (fabs(unit_direction.GetX()) > 0.001)
-		{
-			for (float x = start_x; compare(x, end_x, comp); x += inc_x)
-			{
-				Intersection intersection = CalculateIntersection(start_pos, unit_direction, x, true);
-				if (intersection.lambda > 0.0f)
-				{
-					intersections_x.Append(intersection);
-				}
-			}
-		}
-	}
-	
-	List<Intersection> intersections_y;
-	{
-		float start_y = clamp_direction(start_pos.GetY(), !ispositive(unit_direction.GetY()));
-		float end_y = ispositive(unit_direction.GetY()) ? Y : 0.0f;
-		float inc_y = (end_y > start_y) ? 1.0f : -1.0f;
-		Comparison comp = (end_y > start_y) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
-		if (fabs(unit_direction.GetY()) > 0.001)
-		{
-			for (float y = start_y; compare(y, end_y, comp); y += inc_y)
-			{
-				Intersection intersection = CalculateIntersection(start_pos, unit_direction, y, false);
-				if (intersection.lambda > 0.0f)
-				{
-					intersections_y.Append(intersection);
-				}
-			}
-		}
+		valid_x = GotoNext(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
 	}
 
-	ListNode<Intersection>* node_x = intersections_x.GetChild();
-	ListNode<Intersection>* node_y = intersections_y.GetChild();
-	while ((node_x != nullptr) || (node_y != nullptr))
+	if (intersection_y.lambda <= 0.0f)
 	{
-		//find next intersection along line
-		ListNode<Intersection>* node = nullptr;
-		if ((node_x != nullptr) && (node_y != nullptr))
-		{
-			if (node_x->GetValue().lambda < node_y->GetValue().lambda)
-			{
-				node = node_x;
+		valid_y = GotoNext(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
+	}
 
-				//select next node
-				node_x = node_x->GetChild();
-			}
-			else
-			{
-				node = node_y;
-				node_y = node_y->GetChild();
-			}
-		}
-		else if (node_x != nullptr)
+	while (valid_x || valid_y)
+	{
+		bool choose_x = true;
+		if (valid_x && valid_y)
 		{
-			node = node_x;
-			node_x = node_x->GetChild();
+			choose_x = intersection_x.lambda < intersection_y.lambda;
 		}
 		else
 		{
-			node = node_y;
-			node_y = node_y->GetChild();
+			choose_x = valid_x && (!valid_y);
 		}
 
-		Intersection intersection = node->GetValue();
+		Intersection intersection;
+		if (choose_x)
+		{
+			intersection = intersection_x;
+		}
+		else
+		{
+			intersection = intersection_y;
+		}
 
 		WorldRegion region = SampleFromWorld(world, intersection.point);
 
 		if (region != WorldRegion::Air)
 		{
 			return WorldIntersection(intersection.point, region);
+		}
+
+		if (choose_x)
+		{
+			valid_x = GotoNext(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
+		}
+		else
+		{
+			valid_y = GotoNext(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
 		}
 	}
 
