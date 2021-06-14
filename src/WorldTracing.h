@@ -34,6 +34,15 @@ bool FindNextAxisIntersection(Intersection& next_intersection, float& current, V
 template<unsigned int X, unsigned int Y>
 inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
 {
+	//potentially skip the whole process if the region the trace starts from is solid
+	{
+		WorldRegion region = SampleFromWorld(world, start_pos);
+		if (region != WorldRegion::Air)
+		{
+			return WorldIntersection(start_pos, region);
+		}
+	}
+
 	Vector<float, 2> unit_direction;
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
