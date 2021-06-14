@@ -6,8 +6,6 @@
 #include "Maths.h"
 #include "List.h"
 
-#define ITERATIVE_TRACE 0
-
 enum class WorldRegion
 {
 	Air,
@@ -90,75 +88,6 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	Vector<float, 2> unit_direction;
 	unit_direction.GetX() = cos(angle);
 	unit_direction.GetY() = sin(angle);
-
-#if ITERATIVE_TRACE == 1
-	float lambda = 0.0f;
-	constexpr float lambda_increment = 0.05f;
-	constexpr float max_lambda = 10.0f;
-
-	WorldRegion current_region = WorldRegion::Air;
-	Vector<float, 2> current_pos = start_pos;
-
-	while (lambda < max_lambda && current_region == WorldRegion::Air)
-	{
-		lambda += lambda_increment;
-
-		current_pos = (unit_direction * lambda) + start_pos;
-		current_region = SampleFromWorld(world, current_pos);
-	}
-
-	return WorldIntersection(current_pos, current_region);
-
-#else
-
-	/*const int major = (fabs(unit_direction.GetX()) > fabs(unit_direction.GetY())) ? 0 : 1;
-	const int minor = (major + 1) % 2;
-
-	constexpr int DIMENSIONS_TABLE[2] = { X, Y };
-
-	const int inc_minor = ispositive(unit_direction[minor]) ? 1 : -1;
-	const int inc_major = ispositive(unit_direction[major]) ? 1 : -1;
-
-	const Comparison minor_comparison = ispositive(inc_minor) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
-	const Comparison major_comparison = ispositive(inc_major) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
-
-	const int start_minor = static_cast<int>(round_direction(start_pos[minor], !ispositive(inc_minor)));
-	const int end_minor = ispositive(unit_direction[minor]) ? DIMENSIONS_TABLE[minor] : -1;
-
-	int start_major = static_cast<int>(round_direction(start_pos[major], !ispositive(inc_major)));
-
-	//adapted dda
-	for (int current_minor = start_minor; compare(current_minor, end_minor, minor_comparison); current_minor += inc_minor)
-	{
-		const float end_lambda = (static_cast<float>(current_minor + inc_minor) - start_pos[minor]) / unit_direction[minor];
-		const float end_major_fl = (end_lambda * unit_direction[major]) + start_pos[major];
-		int end_major = static_cast<int>(round_direction(end_major_fl, !ispositive(inc_major)));
-
-		//clamp to range
-		end_major = clamp(end_major, -1, DIMENSIONS_TABLE[major]);
-		
-		for (int current_major = start_major; compare(current_major, end_major, major_comparison); current_major += inc_major)
-		{
-			int sampler[2] = { 0, 0 };
-			sampler[major] = current_major;
-			sampler[minor] = current_minor;
-
-			const WorldRegion current_region = SampleFromWorld(world, sampler[0], sampler[1]);
-
-			if (current_region != WorldRegion::Air)
-			{
-				const BoxIntersection intersections = FindIntersection(start_pos, unit_direction, sampler[0], sampler[1]);
-				if (intersections.has_values)
-				{
-					return WorldIntersection((unit_direction * intersections.entry_lambda) + start_pos, current_region);
-				}
-			}
-		}
-		start_major = end_major;
-	}
-
-	return WorldIntersection(start_pos, WorldRegion::Air);*/
-#endif
 
 	struct Intersection
 	{
