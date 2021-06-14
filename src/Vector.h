@@ -85,7 +85,7 @@ struct Vector
 		return BaseType(1) / this->InverseLength();
 	}
 
-	Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs) const
+	inline Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -95,7 +95,7 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator+=(const Vector<BaseType, dimensions>& rhs)
+	inline Vector<BaseType, dimensions> operator+=(const Vector<BaseType, dimensions>& rhs)
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
 		{
@@ -104,7 +104,7 @@ struct Vector
 		return *this;
 	}
 
-	Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs) const
+	inline Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -114,7 +114,7 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator-=(const Vector<BaseType, dimensions>& rhs)
+	inline Vector<BaseType, dimensions> operator-=(const Vector<BaseType, dimensions>& rhs)
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
 		{
@@ -123,7 +123,7 @@ struct Vector
 		return *this;
 	}
 
-	Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs) const
+	inline Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -133,7 +133,7 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator*=(const Vector<BaseType, dimensions>& rhs)
+	inline Vector<BaseType, dimensions> operator*=(const Vector<BaseType, dimensions>& rhs)
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
 		{
@@ -142,7 +142,7 @@ struct Vector
 		return *this;
 	}
 
-	Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs) const
+	inline Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -152,7 +152,7 @@ struct Vector
 		return result;
 	}
 
-	Vector<BaseType, dimensions> operator/=(const Vector<BaseType, dimensions>& rhs)
+	inline Vector<BaseType, dimensions> operator/=(const Vector<BaseType, dimensions>& rhs)
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
 		{
