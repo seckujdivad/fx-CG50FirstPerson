@@ -40,6 +40,7 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\List.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Maths.cpp" />
     <ClCompile Include="src\Q_rsqrt.cpp" />
@@ -48,10 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\enable_if.h" />
+    <ClInclude Include="src\List.h" />
     <ClInclude Include="src\Maths.h" />
+    <ClInclude Include="src\operator_new.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Q_rsqrt.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\rvalue_refs.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\World.h" />
   </ItemGroup>
