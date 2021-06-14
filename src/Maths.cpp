@@ -11,37 +11,47 @@ float ceil(float x)
 	return floored == x ? x : (ispositive(x) ? floored + 1.0f : floored - 1.0f);
 }
 
+float sin_inner(float x)
+{
+	return x - (pow(x, 3) / fact(3)) + (pow(x, 5) / fact(5));
+}
+
 float sin(float x)
 {
-	float x_ = fmod(x, 2.0f * PI);
-	if (x_ <= 0.5f * PI)
+	float x_looped = fmod(x, 2.0f * PI);
+	if (x_looped <= 0.5f * PI)
 	{
-		return x_ - (pow(x_, 3) / fact(3)) + (pow(x_, 5) / fact(5));
+		return sin_inner(x_looped);
 	}
-	else if (x_ < PI)
+	else if (x_looped < PI)
 	{
-		return sin(PI - x_);
+		return sin(PI - x_looped);
 	}
 	else
 	{
-		return 0.0f - sin(x_ - PI);
+		return 0.0f - sin(x_looped - PI);
 	}
+}
+
+float cos_inner(float x)
+{
+	return 1.0f - (pow(x, 2) / fact(2)) + (pow(x, 4) / fact(4));
 }
 
 float cos(float x)
 {
-	float x_ = fmod(x, 2.0f * PI);
-	if (x_ <= 0.5f * PI)
+	float x_looped = fmod(x, 2.0f * PI);
+	if (x_looped <= 0.5f * PI)
 	{
-		return 1 - (pow(x_, 2) / fact(2)) + (pow(x_, 4) / fact(4));
+		return cos_inner(x_looped);
 	}
-	else if (x_ < PI)
+	else if (x_looped < PI)
 	{
-		return 0.0f - cos(PI - x_);
+		return 0.0f - cos(PI - x_looped);
 	}
 	else
 	{
-		return 0.0f - cos(x_ - PI);
+		return 0.0f - cos(x_looped - PI);
 	}
 }
 
