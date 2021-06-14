@@ -71,12 +71,12 @@ float mix(float a, float b, float mixer)
 	return a + ((b - a) * mixer);
 }
 
-float round_direction(float value, bool upwards)
+float clamp_direction(float to_clamp, bool upwards)
 {
-	return (upwards != ispositive(value)) ? floor(value) : ceil(value);
+	return (upwards != ispositive(to_clamp)) ? floor(to_clamp) : ceil(to_clamp);
 }
 
-float round_direction(float to_round, float reference, bool round_away)
+float clamp_direction(float to_clamp, float reference, bool clamp_away_from_reference)
 {
-	return round_direction(to_round, (to_round < reference) != round_away);
+	return clamp_direction(to_clamp, (to_clamp < reference) != clamp_away_from_reference);
 }
