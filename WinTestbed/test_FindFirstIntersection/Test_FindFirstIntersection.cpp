@@ -5,6 +5,7 @@
 namespace fxcg
 {
 #include "World.cpp"
+#include "WorldTracing.cpp"
 #include "Q_rsqrt.cpp"
 #include "Maths.cpp"
 }

@@ -5,6 +5,7 @@
 namespace fxcg
 {
 #include "World.h"
+#include "WorldTracing.h"
 }
 
 class Test_FindFirstIntersection : public wxPanel

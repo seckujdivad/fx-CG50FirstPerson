@@ -3,6 +3,7 @@
 #include <fxcg/display.h>
 
 #include "World.h"
+#include "WorldTracing.h"
 #include "Player.h"
 #include "Maths.h"
 

@@ -45,6 +45,7 @@
     <ClCompile Include="src\Q_rsqrt.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\WorldTracing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\enable_if.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="src\rvalue_refs.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\WorldTracing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
