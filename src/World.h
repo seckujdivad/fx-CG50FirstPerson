@@ -47,7 +47,6 @@ inline void GenerateWorld(World<X, Y>& target, const char* generator)
 template<unsigned int X, unsigned int Y, typename T>
 inline WorldRegion SampleFromWorld(const World<X, Y>& target, Vector<T, 2> sample)
 {
-
 	return SampleFromWorld(target, static_cast<int>(clamp_direction(sample.GetX(), false)), static_cast<int>(clamp_direction(sample.GetY(), false)));
 }
 
