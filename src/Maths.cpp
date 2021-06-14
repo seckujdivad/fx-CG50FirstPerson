@@ -11,12 +11,21 @@ float ceil(float x)
 	return floored == x ? x : (ispositive(x) ? floored + 1.0f : floored - 1.0f);
 }
 
-float sin_inner(float x)
+// https://en.wikipedia.org/wiki/Horner%27s_method to evaluate maclaurins series
+double sin_inner(double x) // x->[0..PI/2]
 {
-	return x - (pow(x, 3) / fact(3)) + (pow(x, 5) / fact(5));
+#if 1 //use double precision as it works better for small angles
+	double x2 = pow(x, 2.0);
+	double approximation = x * (1 + x2 * ((-1.0 / fact(3)) + x2 * ((1.0 / fact(5)) + x2 * ((-1.0 / fact(7))))));
+#else
+	float x2 = pow(x, 2.0f);
+	float approximation = x * (1 + x2 * ((-1.0f / fact(3)) + x2 * ((1.0f / fact(5)) + x2 * ((-1.0f / fact(7))))));
+#endif
+
+	return clamp(approximation, 0.0, 1.0);
 }
 
-float sin(float x)
+double sin(double x)
 {
 	float x_looped = fmod(x, 2.0f * PI);
 	if (x_looped <= 0.5f * PI)
@@ -33,26 +42,9 @@ float sin(float x)
 	}
 }
 
-float cos_inner(float x)
+double cos(double x)
 {
-	return 1.0f - (pow(x, 2) / fact(2)) + (pow(x, 4) / fact(4));
-}
-
-float cos(float x)
-{
-	float x_looped = fmod(x, 2.0f * PI);
-	if (x_looped <= 0.5f * PI)
-	{
-		return cos_inner(x_looped);
-	}
-	else if (x_looped < PI)
-	{
-		return 0.0f - cos(PI - x_looped);
-	}
-	else
-	{
-		return 0.0f - cos(x_looped - PI);
-	}
+	return sin(x + (PI / 2.0f));
 }
 
 float fmod(float x, float y)

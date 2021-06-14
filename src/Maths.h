@@ -5,8 +5,8 @@ constexpr float PI = 3.14159265359f;
 float floor(float x);
 float ceil(float x);
 
-float sin(float x);
-float cos(float x);
+double sin(double x);
+double cos(double x);
 
 float fmod(float x, float y);
 bool ispositive(float x);
