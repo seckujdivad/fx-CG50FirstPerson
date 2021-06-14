@@ -2,7 +2,9 @@
 
 #include <stdlib.h>
 
+#ifndef _WIN32
 #include <fxcg/heap.h>
+#endif
 
 #include "rvalue_refs.h"
 
@@ -83,6 +85,7 @@ public:
 		return this->m_child;
 	}
 
+#ifndef _WIN32
 	inline void* operator new(size_t size)
 	{
 		return sys_malloc(size);
@@ -95,6 +98,7 @@ public:
 			sys_free(ptr);
 		}
 	}
+#endif
 };
 
 template<typename T>
@@ -201,6 +205,7 @@ public:
 		return node->GetValue();
 	}
 
+#ifndef _WIN32
 	inline void* operator new(size_t size)
 	{
 		return sys_malloc(size);
@@ -213,4 +218,5 @@ public:
 			sys_free(ptr);
 		}
 	}
+#endif
 };
