@@ -89,7 +89,7 @@ struct Intersection
 
 Intersection CalculateIntersection(Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float pinned_value, bool pinned_is_x);
 
-bool GotoNext(Intersection& next_intersection, float& current, Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float start, float end, bool inc_is_x);
+bool FindNextAxisIntersection(Intersection& next_intersection, float& current, Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float start, float end, bool inc_is_x);
 
 template<unsigned int X, unsigned int Y>
 inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<float, 2> start_pos, float angle)
@@ -114,12 +114,12 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	//ensure lambda > 0
 	if (intersection_x.lambda <= 0.0f)
 	{
-		valid_x = GotoNext(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
+		valid_x = FindNextAxisIntersection(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
 	}
 
 	if (intersection_y.lambda <= 0.0f)
 	{
-		valid_y = GotoNext(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
+		valid_y = FindNextAxisIntersection(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
 	}
 
 	while (valid_x || valid_y)
@@ -153,11 +153,11 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 
 		if (choose_x)
 		{
-			valid_x = GotoNext(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
+			valid_x = FindNextAxisIntersection(intersection_x, current_x, start_pos, unit_direction, start_x, end_x, true);
 		}
 		else
 		{
-			valid_y = GotoNext(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
+			valid_y = FindNextAxisIntersection(intersection_y, current_y, start_pos, unit_direction, start_y, end_y, false);
 		}
 	}
 

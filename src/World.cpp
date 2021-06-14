@@ -83,7 +83,7 @@ Intersection CalculateIntersection(Vector<float, 2> start_pos, Vector<float, 2> 
 	return { vec, lambda };
 }
 
-bool GotoNext(Intersection& next_intersection, float& current, Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float start, float end, bool inc_is_x)
+bool FindNextAxisIntersection(Intersection& next_intersection, float& current, Vector<float, 2> start_pos, Vector<float, 2> unit_direction, float start, float end, bool inc_is_x)
 {
 	float inc = (end > start) ? 1.0f : -1.0f;
 	Comparison comp = (end > start) ? Comparison::LessThanEqual : Comparison::GreaterThanEqual;
@@ -98,7 +98,7 @@ bool GotoNext(Intersection& next_intersection, float& current, Vector<float, 2> 
 		}
 		else
 		{
-			return GotoNext(next_intersection, current, start_pos, unit_direction, start, end, inc_is_x);
+			return FindNextAxisIntersection(next_intersection, current, start_pos, unit_direction, start, end, inc_is_x);
 		}
 	}
 	else
