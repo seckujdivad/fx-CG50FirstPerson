@@ -83,15 +83,7 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 			choose_x = valid_x && (!valid_y);
 		}
 
-		Intersection intersection;
-		if (choose_x)
-		{
-			intersection = intersection_x;
-		}
-		else
-		{
-			intersection = intersection_y;
-		}
+		const Intersection& intersection = choose_x ? intersection_x : intersection_y;
 
 		WorldRegion region = SampleFromWorld(world, intersection.point);
 
