@@ -31,11 +31,11 @@ int main()
 
 	while (true)
 	{
-		player.rotation = fmod(player.rotation, PI * 2.0f);
+		player.rotation = fmod(player.rotation, PI<float> * 2.0f);
 		Render(world, player);
 
 		{
-			int rot_perc_x = LCD_WIDTH_PX * (player.rotation / (2.0f * PI));
+			int rot_perc_x = LCD_WIDTH_PX * (player.rotation / (2.0f * PI<float>));
 			for (int x = 0; x < LCD_WIDTH_PX; x++)
 			{
 				color_t colour = COLOR_WHITE;

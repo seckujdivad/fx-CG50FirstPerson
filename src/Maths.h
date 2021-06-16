@@ -1,22 +1,66 @@
 #pragma once
 
-constexpr float PI = 3.14159265359f;
+template<typename T = double>
+constexpr T PI = 3.1415926535897932384626433832795; //3.14159265359f;
 
-float floor(float x);
-float ceil(float x);
+template<typename T>
+constexpr bool ispositive(T x)
+{
+	return x >= static_cast<T>(0.0);
+}
+
+template<typename T>
+constexpr T floor(T x)
+{
+	return static_cast<T>(static_cast<int>(x));
+}
+
+template<typename T>
+inline T ceil(T x)
+{
+	T floored = floor(x);
+	return floored == x ? x : (ispositive(x) ? floored + static_cast<T>(1.0) : floored - static_cast<T>(1.0));
+}
+
+template<typename T>
+inline T fmod(T x, T y)
+{
+	T transformed_x = ispositive(x) ? x : y + x;
+	return (transformed_x - floor(transformed_x / y) * y);
+}
+
+template<typename T>
+constexpr T fabs(T x)
+{
+	return ispositive(x) ? x : x * static_cast<T>(-1.0);
+}
+
+template<typename T>
+constexpr T copysign(T x, T y)
+{
+	return ispositive(x) == ispositive(y) ? x : static_cast<T>(-1.0) * x;
+}
+
+template<typename T>
+constexpr T mix(T a, T b, T mixer)
+{
+	return a + ((b - a) * mixer);
+}
+
+template<typename T>
+inline T clamp_direction(T to_clamp, bool upwards)
+{
+	return (upwards != ispositive(to_clamp)) ? floor(to_clamp) : ceil(to_clamp);
+}
+
+template<typename T>
+inline T clamp_direction(T to_clamp, T reference, bool clamp_away_from_reference)
+{
+	return clamp_direction(to_clamp, (to_clamp < reference) != clamp_away_from_reference);
+}
 
 double sin(double x);
 double cos(double x);
-
-float fmod(float x, float y);
-bool ispositive(float x);
-float fabs(float x);
-float copysign(float x, float y);
-
-float mix(float a, float b, float mixer);
-
-float clamp_direction(float to_clamp, bool upwards);
-float clamp_direction(float to_clamp, float reference, bool clamp_away_from_reference);
 
 enum class Comparison
 {
