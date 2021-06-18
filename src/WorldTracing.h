@@ -3,6 +3,7 @@
 #include "Vector.h"
 #include "World.h"
 #include "Maths.h"
+#include "MakeConst.h"
 
 struct BoxIntersection
 {
@@ -48,14 +49,14 @@ inline WorldIntersection FindFirstIntersection(const World<X, Y>& world, Vector<
 	unit_direction.GetY() = sin(angle);
 
 	//set up loop bounds and loop data
-	float start_x = clamp_direction(start_pos.GetX(), !ispositive(unit_direction.GetX()));
-	float end_x = ispositive(unit_direction.GetX()) ? X : 0.0f;
+	float start_x = clamp_direction(MakeConst(start_pos).GetX(), !ispositive(unit_direction.GetX()));
+	float end_x = ispositive(MakeConst(unit_direction).GetX()) ? X : 0.0f;
 	float current_x = start_x;
 	Intersection intersection_x = CalculateIntersection(start_pos, unit_direction, current_x, true);
 	bool valid_x = true;
 
-	float start_y = clamp_direction(start_pos.GetY(), !ispositive(unit_direction.GetY()));
-	float end_y = ispositive(unit_direction.GetY()) ? Y : 0.0f;
+	float start_y = clamp_direction(MakeConst(start_pos).GetY(), !ispositive(unit_direction.GetY()));
+	float end_y = ispositive(MakeConst(unit_direction).GetY()) ? Y : 0.0f;
 	float current_y = start_y;
 	Intersection intersection_y = CalculateIntersection(start_pos, unit_direction, current_y, false);
 	bool valid_y = true;

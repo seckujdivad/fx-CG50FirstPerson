@@ -33,7 +33,7 @@ inline void Render(const World<X, Y>& world, const Player& player)
 		float view_angle = mix(view_angle_start, view_angle_end, view_angle_frac);
 
 		WorldIntersection intersection = FindFirstIntersection(world, player.position, view_angle);
-		Vector<float, 2> view_ray = intersection.position - player.position;
+		const Vector<float, 2> view_ray = intersection.position - player.position;
 
 		color_t wall_colour = GetColour(intersection.region);
 
