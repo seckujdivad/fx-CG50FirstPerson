@@ -95,7 +95,7 @@ void Test_FindFirstIntersection::OnMotion(wxMouseEvent& evt)
 		this->m_angle = acos(angle_vec.GetX());
 		if (angle_vec.GetY() < 0.0f)
 		{
-			this->m_angle = (2.0f * fxcg::PI) - this->m_angle;
+			this->m_angle = (2.0f * fxcg::PI<>) - this->m_angle;
 		}
 
 		this->Refresh();
