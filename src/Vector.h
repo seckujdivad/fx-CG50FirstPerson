@@ -2,6 +2,8 @@
 
 #include "Q_rsqrt.h"
 
+#include "enable_if.h"
+
 template<typename BaseType, unsigned int dimensions>
 struct Vector
 {
@@ -15,8 +17,8 @@ struct Vector
 		}
 	}
 
-	template<typename ...T>
-	constexpr Vector(BaseType value, T... values) : values { value, values... } {};
+	template<typename ...T, typename = enable_if_t<sizeof...(T) == dimensions>>
+	constexpr Vector(T... values) : values { values... } {};
 
 	inline Vector(BaseType values[dimensions])
 	{
