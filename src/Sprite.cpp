@@ -2,6 +2,10 @@
 
 #include "Sprites.h"
 
+/*
+* Sprite data is transposed when rendered to better utilise the cache
+*/
+
 constexpr Vector<int, 2> SPRITE_DIMENSIONS[] = {
 	Vector<int, 2>(6, 6),
 	Vector<int, 2>(5, 5)
