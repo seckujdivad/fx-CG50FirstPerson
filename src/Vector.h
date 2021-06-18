@@ -169,7 +169,7 @@ struct Vector
 		return this->values[index];
 	}
 
-	inline const BaseType& operator[](int index) const
+	constexpr const BaseType& operator[](int index) const
 	{
 		return this->values[index];
 	}
