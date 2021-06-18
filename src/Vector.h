@@ -15,6 +15,9 @@ struct Vector
 		}
 	}
 
+	template<typename ...T>
+	constexpr Vector(BaseType value, T... values) : values { value, values... } {};
+
 	inline Vector(BaseType values[dimensions])
 	{
 		for (unsigned int i = 0; i < dimensions; i++)
@@ -36,37 +39,37 @@ struct Vector
 
 	inline BaseType& GetX()
 	{
-		static_assert(dimensions > 0);
+		static_assert(dimensions > 0, "Dimensions must be greater than 0 to use GetX");
 		return this->values[0];
 	}
 
 	inline BaseType& GetY()
 	{
-		static_assert(dimensions > 1);
+		static_assert(dimensions > 1, "Dimensions must be greater than 1 to use GetY");
 		return this->values[1];
 	}
 
 	inline BaseType& GetZ()
 	{
-		static_assert(dimensions > 2);
+		static_assert(dimensions > 2, "Dimensions must be greater than 2 to use GetZ");
 		return this->values[2];
 	}
 
 	inline const BaseType& GetX() const
 	{
-		static_assert(dimensions > 0);
+		static_assert(dimensions > 0, "Dimensions must be greater than 0 to use GetX");
 		return this->values[0];
 	}
 
 	inline const BaseType& GetY() const
 	{
-		static_assert(dimensions > 1);
+		static_assert(dimensions > 1, "Dimensions must be greater than 1 to use GetY");
 		return this->values[1];
 	}
 
 	inline const BaseType& GetZ() const
 	{
-		static_assert(dimensions > 2);
+		static_assert(dimensions > 2, "Dimensions must be greater than 2 to use GetZ");
 		return this->values[2];
 	}
 
