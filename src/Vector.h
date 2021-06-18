@@ -55,19 +55,19 @@ struct Vector
 		return this->values[2];
 	}
 
-	inline const BaseType& GetX() const
+	constexpr const BaseType& GetX() const
 	{
 		static_assert(dimensions > 0, "Dimensions must be greater than 0 to use GetX");
 		return this->values[0];
 	}
 
-	inline const BaseType& GetY() const
+	constexpr const BaseType& GetY() const
 	{
 		static_assert(dimensions > 1, "Dimensions must be greater than 1 to use GetY");
 		return this->values[1];
 	}
 
-	inline const BaseType& GetZ() const
+	constexpr const BaseType& GetZ() const
 	{
 		static_assert(dimensions > 2, "Dimensions must be greater than 2 to use GetZ");
 		return this->values[2];
