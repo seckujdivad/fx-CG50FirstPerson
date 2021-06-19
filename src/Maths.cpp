@@ -35,3 +35,90 @@ double cos(double x)
 {
 	return sin(x + (PI<> / 2.0));
 }
+
+constexpr float TAN_VALUES[] = {
+    0.000000,
+    0.078702,
+    0.158384,
+    0.240079,
+    0.324920,
+    0.414214,
+    0.509525,
+    0.612801,
+    0.726543,
+    0.854081,
+    1.000000,
+    1.170850,
+    1.376382,
+    1.631852,
+    1.962610,
+    2.414214,
+    3.077684,
+    4.165300,
+    6.313750,
+    12.706202
+};
+constexpr int NUM_TAN_VALUES = sizeof(TAN_VALUES) / sizeof(float);
+
+int FindNearestIndex(float ref, int min, int max)
+{
+    if (min + 1 >= max)
+    {
+        return min;
+    }
+    else
+    {
+        int middle = min + ((max - min) / 2);
+        if (TAN_VALUES[middle] < ref)
+        {
+            if (TAN_VALUES[middle + 1] > ref)
+            {
+                return middle;
+            }
+            else
+            {
+                return FindNearestIndex(ref, middle + 1, max);
+            }
+        }
+        else
+        {
+            if (TAN_VALUES[middle - 1] < ref)
+            {
+                return middle - 1;
+            }
+            else
+            {
+                return FindNearestIndex(ref, min, middle - 1);
+            }
+        }
+    }
+}
+
+int FindNearestIndex(float ref)
+{
+    if (ref < TAN_VALUES[0])
+    {
+        return 0;
+    }
+    else if (ref > TAN_VALUES[NUM_TAN_VALUES - 1])
+    {
+        return NUM_TAN_VALUES - 1;
+    }
+    else
+    {
+        return FindNearestIndex(ref, 1, NUM_TAN_VALUES - 1);
+    }
+}
+
+float atan(float x)
+{
+    if (x < 0.0f)
+    {
+        return 0.0f - atan(0.0f - x);
+    }
+    else
+    {
+        float tan_frac = static_cast<float>(FindNearestIndex(x)) / static_cast<float>(NUM_TAN_VALUES);
+        return tan_frac * 0.5f * PI<float>;
+    }
+}

@@ -84,7 +84,7 @@ inline bool compare(T first, T second, Comparison comparison)
 }
 
 template<typename T>
-inline T clamp(T value, T smallest, T greatest)
+constexpr T clamp(T value, T smallest, T greatest)
 {
 	if (smallest > value)
 	{
@@ -120,3 +120,5 @@ inline constexpr T pow_constexpr(T x, int y) //y must be >= 0
 {
 	return y == 0 ? 1 : x * pow_constexpr(x, y - 1);
 }
+
+float atan(float x);
