@@ -11,9 +11,9 @@ constexpr Vector<int, 2> SPRITE_DIMENSIONS[] = {
 	Vector<int, 2>(5, 5)
 };
 
-constexpr size_t SPRITE_SCALE[] = {
-	1,
-	5
+constexpr Vector<int, 2> SPRITE_SCALES[] = {
+	Vector<int, 2>(1, 1),
+	Vector<int, 2>(5, 5)
 };
 
 constexpr color_t SPRITE_DATA_Error[SPRITE_DIMENSIONS[0].GetX() * SPRITE_DIMENSIONS[0].GetY()] = {
@@ -85,4 +85,9 @@ const bool* Sprite::GetAlphaMask() const
 	{
 		return SPRITE_ALPHAMASK_Error;
 	}
+}
+
+const Vector<int, 2>& Sprite::GetScale() const
+{
+	return SPRITE_SCALES[static_cast<size_t>(this->m_sprite)];
 }
