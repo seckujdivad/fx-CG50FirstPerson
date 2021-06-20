@@ -175,4 +175,10 @@ struct Vector
 	{
 		return this->values[index];
 	}
+
+	template<typename T>
+	inline Vector<T, dimensions>&& Cast() const
+	{
+		return Vector<T, dimensions>(*this);
+	}
 };
