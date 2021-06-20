@@ -62,6 +62,8 @@ void Test_FindFirstIntersection::OnPaint(wxPaintEvent& evt)
 		fxcg::WorldIntersection intersection = fxcg::FindFirstIntersection(this->m_world, this->m_position, this->m_angle);
 		wxPoint int_point = wxPoint(intersection.position.GetX() * scale_x, intersection.position.GetY() * scale_y);
 		paint_dc.DrawCircle(int_point, 5);
+
+		paint_dc.DrawText("Angle: " + std::to_string((intersection.position - this->m_position).GetAngle()), wxPoint(4, 1));
 	}
 }
 
