@@ -1,7 +1,7 @@
 #pragma once
 
 template<typename T = double>
-constexpr T PI = 3.1415926535897932384626433832795; //3.14159265359f;
+constexpr T PI = static_cast<T>(3.1415926535897932384626433832795); //3.14159265359f;
 
 template<typename T>
 constexpr bool ispositive(T x)
@@ -81,6 +81,18 @@ inline bool compare(T first, T second, Comparison comparison)
 	case Comparison::GreaterThanEqual: return first >= second;
 	default: return false;
 	}
+}
+
+template<typename T>
+constexpr T max(T x, T y)
+{
+	return (x > y) ? x : y;
+}
+
+template<typename T>
+constexpr T min(T x, T y)
+{
+	return (x < y) ? x : y;
 }
 
 template<typename T>
