@@ -11,6 +11,9 @@
 void Test_Renderer::OnPaint(wxPaintEvent& evt)
 {
 	wxBufferedPaintDC paint_dc = wxBufferedPaintDC(this->m_pnl_render);
+	paint_dc.SetBackground(*wxWHITE_BRUSH);
+	paint_dc.Clear();
+
 	paint_dc.SetPen(*wxTRANSPARENT_PEN);
 
 	AddCallback([&paint_dc](int x, int y, int colour)
