@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Q_rsqrt.h"
+#include "Maths.h"
 
 #include "enable_if.h"
 
@@ -180,5 +181,27 @@ struct Vector
 	inline Vector<T, dimensions>&& Cast() const
 	{
 		return Vector<T, dimensions>(*this);
+	}
+
+	inline float GetAngle() const
+	{
+		if (fabs(this->GetY()) < 0.01f)
+		{
+			return (this->GetX() > 0.0f) ? 0.0f : PI<float>;
+		}
+		else if (fabs(this->GetX()) < 0.01f)
+		{
+			return (this->GetY() > 0.0f) ? (PI<float> * 0.5f) : (PI<float> * 1.5f);
+		}
+		else
+		{
+			float angle = atan(this->GetY() / this->GetX());
+			if (this->GetX() < 0.0f)
+			{
+				angle += PI<float>;
+			}
+
+			return fmod(angle, PI<float> * 2.0f);
+		}
 	}
 };
