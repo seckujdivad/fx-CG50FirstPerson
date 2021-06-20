@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\fxcg.h" />
     <ClInclude Include="src\Main.h" />
     <ClInclude Include="src\tests\Test_FindFirstIntersection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\fxcg.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\tests\Test_FindFirstIntersection.cpp" />
   </ItemGroup>

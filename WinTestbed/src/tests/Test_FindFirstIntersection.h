@@ -2,12 +2,7 @@
 
 #include <wx/panel.h>
 
-namespace fxcg
-{
-#include "World.h"
-#include "WorldTracing.h"
-#include "Maths.h"
-}
+#include "../fxcg.h"
 
 class Test_FindFirstIntersection : public wxPanel
 {
