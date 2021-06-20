@@ -81,7 +81,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const float sprite_angle_width_half = static_cast<float>(sprite_width) * inverse_distance * (FOV_HALF / LCD_WIDTH_PX);
 
 		const float sprite_angle = sprite_diff.GetAngle();
-		const float sprite_angle_diff = sprite_angle - player.rotation;
+		const float sprite_angle_diff = player.rotation - sprite_angle;
 
 		const float sprite_start_angle = sprite_angle_diff - sprite_angle_width_half;
 		const float sprite_end_angle = sprite_angle_diff + sprite_angle_width_half;
