@@ -3,12 +3,14 @@
 #include <stdexcept>
 
 #include <wx/dcbuffer.h>
+#include <wx/gbsizer.h>
+#include <wx/slider.h>
 
 #include "../fxcg_impl.h"
 
 void Test_Renderer::OnPaint(wxPaintEvent& evt)
 {
-	wxBufferedPaintDC paint_dc = wxBufferedPaintDC(this);
+	wxBufferedPaintDC paint_dc = wxBufferedPaintDC(this->m_pnl_render);
 	paint_dc.SetPen(*wxTRANSPARENT_PEN);
 
 	AddCallback([&paint_dc](int x, int y, int colour)
@@ -48,17 +50,36 @@ void Test_Renderer::OnSize(wxSizeEvent& evt)
 	this->Refresh();
 }
 
+void Test_Renderer::sld_player_rotation_OnSlide(wxCommandEvent& evt)
+{
+	this->m_player.rotation = fxcg::degtorad(static_cast<float>(evt.GetInt()));
+	this->Refresh();
+}
+
 Test_Renderer::Test_Renderer(wxWindow* parent) : wxPanel(parent)
 {
 	fxcg::GenerateWorld(this->m_world, fxcg::WORLD_GENERATOR);
 
+	this->m_sizer = new wxGridBagSizer(0, 0);
+	this->m_sizer->SetFlexibleDirection(wxBOTH);
+	this->m_sizer->SetNonFlexibleGrowMode(wxFLEX_GROWMODE_SPECIFIED);
+
 	this->SetBackgroundColour(*wxWHITE);
 
-	this->SetDoubleBuffered(true);
+	this->m_pnl_render = new wxPanel(this, wxID_ANY);
+	this->m_pnl_render->Bind(wxEVT_PAINT, &Test_Renderer::OnPaint, this);
+	this->m_pnl_render->Bind(wxEVT_SIZE, &Test_Renderer::OnSize, this);
+	this->m_pnl_render->SetDoubleBuffered(true);
+	this->m_sizer->Add(this->m_pnl_render, wxGBPosition(0, 0), wxGBSpan(1, 1), wxEXPAND | wxALL);
+	
+	this->m_sld_player_rotation = new wxSlider(this, wxID_ANY, static_cast<int>(fxcg::radtodeg(this->m_player.rotation)), 0, 360);
+	this->m_sld_player_rotation->Bind(wxEVT_SLIDER, &Test_Renderer::sld_player_rotation_OnSlide, this);
+	this->m_sizer->Add(this->m_sld_player_rotation, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND | wxALL);
 
-	this->Bind(wxEVT_PAINT, &Test_Renderer::OnPaint, this);
-	this->Bind(wxEVT_SIZE, &Test_Renderer::OnSize, this);
+	this->m_sizer->AddGrowableCol(0);
+	this->m_sizer->AddGrowableRow(0);
 
+	this->SetSizer(this->m_sizer);
 	this->Centre(wxBOTH);
 	this->Layout();
 }

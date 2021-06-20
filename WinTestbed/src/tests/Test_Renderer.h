@@ -4,6 +4,8 @@
 
 #include "../fxcg.h"
 
+class wxGridBagSizer;
+
 class Test_Renderer : public wxPanel
 {
 private:
@@ -11,8 +13,14 @@ private:
 
 	fxcg::Player m_player = fxcg::PLAYER_INITIAL;
 
+	wxGridBagSizer* m_sizer;
+	wxPanel* m_pnl_render;
+	wxSlider* m_sld_player_rotation;
+
 	void OnPaint(wxPaintEvent& evt);
 	void OnSize(wxSizeEvent& evt);
+
+	void sld_player_rotation_OnSlide(wxCommandEvent& evt);
 
 public:
 	Test_Renderer(wxWindow* parent);
