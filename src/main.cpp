@@ -5,30 +5,18 @@
 #include "Renderer.h"
 #include "Player.h"
 #include "Maths.h"
-#include "Sprite.h"
-#include "Sprites.h"
+#include "WorldLayout.h"
 
 /* CPU: https://en.wikipedia.org/wiki/SuperH#SH-4_2
 * PrizmSDK: https://prizm.cemetech.net/index.php?title=Prizm_Programming_Portal
 */
-
-constexpr Sprite SPRITES[] = {
-	Sprite(Sprites::RedCross, Vector<float, 2>(0.5f, 0.5f))
-};
-constexpr size_t NUM_SPRITES = sizeof(SPRITES) / sizeof(Sprite);
 
 int main()
 {
 	Bdisp_AllClr_VRAM();
 
 	World<5, 5> world = {};
-	GenerateWorld(world,
-		"OOXOO"
-		"OOOOO"
-		"XOOOX"
-		"OOOOO"
-		"OOXOO"
-	);
+	GenerateWorld(world, WORLD_GENERATOR);
 
 	Player player;
 	player.position = Vector<float, 2>(2.5f);

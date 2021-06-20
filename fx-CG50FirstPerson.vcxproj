@@ -60,6 +60,7 @@
     <ClInclude Include="src\Sprites.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\WorldLayout.h" />
     <ClInclude Include="src\WorldTracing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
