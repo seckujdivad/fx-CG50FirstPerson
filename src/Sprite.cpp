@@ -13,7 +13,7 @@ constexpr Vector<int, 2> SPRITE_DIMENSIONS[] = {
 
 constexpr Vector<int, 2> SPRITE_SCALES[] = {
 	Vector<int, 2>(1, 1),
-	Vector<int, 2>(5, 5)
+	Vector<int, 2>(25, 25)
 };
 
 constexpr color_t SPRITE_DATA_Error[SPRITE_DIMENSIONS[0].GetX() * SPRITE_DIMENSIONS[0].GetY()] = {
