@@ -78,7 +78,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const float inverse_distance = sprite_diff.InverseLength();
 
 		const int sprite_width = sprite.GetScale().GetX() * sprite.GetDimensions().GetX();
-		const float sprite_angle_width_half = static_cast<float>(sprite_width) * inverse_distance * FOV_HALF;
+		const float sprite_angle_width_half = static_cast<float>(sprite_width) * inverse_distance * (FOV_HALF / LCD_WIDTH_PX);
 
 		const float sprite_angle = sprite_diff.GetAngle();
 		const float sprite_angle_diff = sprite_angle - player.rotation;
@@ -95,7 +95,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		if ((end_x > BORDER_X) && (start_x < LCD_WIDTH_PX - BORDER_X))
 		{
 			const int sprite_height = sprite.GetScale().GetY() * sprite.GetDimensions().GetY();
-			const float sprite_angle_height_half = static_cast<float>(sprite_height) * inverse_distance * FOV_HALF;
+			const float sprite_angle_height_half = static_cast<float>(sprite_height) * inverse_distance * (FOV_HALF / LCD_HEIGHT_PX);
 			const int sprite_px_height = static_cast<int>(sprite_angle_height_half * (LCD_HEIGHT_PX - (2 * BORDER_Y)));
 			const int sprite_height_extra_padding = min((LCD_HEIGHT_PX - (2 * BORDER_Y) - sprite_px_height) / 2, ((LCD_HEIGHT_PX - (2 * BORDER_Y)) / 2) - 1);
 
