@@ -8,6 +8,16 @@
 
 #include "../fxcg_impl.h"
 
+constexpr float SliderToValue(int x)
+{
+	return static_cast<float>(x) / 100.0f;
+}
+
+constexpr int ValueToSlider(float x)
+{
+	return static_cast<int>(x * 100.0f);
+}
+
 void Test_Renderer::OnPaint(wxPaintEvent& evt)
 {
 	wxBufferedPaintDC paint_dc = wxBufferedPaintDC(this->m_pnl_render);
@@ -59,6 +69,18 @@ void Test_Renderer::sld_player_rotation_OnSlide(wxCommandEvent& evt)
 	this->Refresh();
 }
 
+void Test_Renderer::sld_player_x_OnSlide(wxCommandEvent& evt)
+{
+	this->m_player.position.GetX() = SliderToValue(evt.GetInt());
+	this->Refresh();
+}
+
+void Test_Renderer::sld_player_y_OnSlide(wxCommandEvent& evt)
+{
+	this->m_player.position.GetY() = SliderToValue(evt.GetInt());
+	this->Refresh();
+}
+
 Test_Renderer::Test_Renderer(wxWindow* parent) : wxPanel(parent)
 {
 	fxcg::GenerateWorld(this->m_world, fxcg::WORLD_GENERATOR);
@@ -78,6 +100,14 @@ Test_Renderer::Test_Renderer(wxWindow* parent) : wxPanel(parent)
 	this->m_sld_player_rotation = new wxSlider(this, wxID_ANY, static_cast<int>(fxcg::radtodeg(this->m_player.rotation)), 0, 360);
 	this->m_sld_player_rotation->Bind(wxEVT_SLIDER, &Test_Renderer::sld_player_rotation_OnSlide, this);
 	this->m_sizer->Add(this->m_sld_player_rotation, wxGBPosition(1, 0), wxGBSpan(1, 1), wxEXPAND | wxALL);
+
+	this->m_sld_player_x = new wxSlider(this, wxID_ANY, ValueToSlider(this->m_player.position.GetX()), ValueToSlider(-1.0f), ValueToSlider(6.0f));
+	this->m_sld_player_x->Bind(wxEVT_SLIDER, &Test_Renderer::sld_player_x_OnSlide, this);
+	this->m_sizer->Add(this->m_sld_player_x, wxGBPosition(2, 0), wxGBSpan(1, 1), wxEXPAND | wxALL);
+
+	this->m_sld_player_y = new wxSlider(this, wxID_ANY, ValueToSlider(this->m_player.position.GetY()), ValueToSlider(-1.0f), ValueToSlider(6.0f));
+	this->m_sld_player_y->Bind(wxEVT_SLIDER, &Test_Renderer::sld_player_y_OnSlide, this);
+	this->m_sizer->Add(this->m_sld_player_y, wxGBPosition(3, 0), wxGBSpan(1, 1), wxEXPAND | wxALL);
 
 	this->m_sizer->AddGrowableCol(0);
 	this->m_sizer->AddGrowableRow(0);

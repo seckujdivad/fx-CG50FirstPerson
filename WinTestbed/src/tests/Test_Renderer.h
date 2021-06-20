@@ -16,11 +16,15 @@ private:
 	wxGridBagSizer* m_sizer;
 	wxPanel* m_pnl_render;
 	wxSlider* m_sld_player_rotation;
+	wxSlider* m_sld_player_x;
+	wxSlider* m_sld_player_y;
 
 	void OnPaint(wxPaintEvent& evt);
 	void OnSize(wxSizeEvent& evt);
 
 	void sld_player_rotation_OnSlide(wxCommandEvent& evt);
+	void sld_player_x_OnSlide(wxCommandEvent& evt);
+	void sld_player_y_OnSlide(wxCommandEvent& evt);
 
 public:
 	Test_Renderer(wxWindow* parent);
