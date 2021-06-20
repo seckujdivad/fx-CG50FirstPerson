@@ -41,3 +41,9 @@ constexpr const T& AccessMatrix(Vector<int, 2> access, const T* matrix, const Ve
 {
 	return AccessMatrix(access, matrix, dimensions.GetY());
 }
+
+template<typename T>
+constexpr const T& AccessSpriteMatrix(const Vector<int, 2> access, const T* matrix, const Sprite sprite)
+{
+	return AccessMatrix(access, matrix, sprite.GetDimensions().GetY());
+}
