@@ -6,5 +6,7 @@ namespace fxcg
 #include "WorldTracing.cpp"
 #include "Q_rsqrt.cpp"
 #include "Maths.cpp"
+#include "Sprite.cpp"
+#include "Renderer.cpp"
 }
 #pragma warning(pop)

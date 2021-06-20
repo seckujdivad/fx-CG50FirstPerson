@@ -33,6 +33,12 @@
     <ClInclude Include="src\fxcg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tests\Test_Renderer.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fxcg_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp">
@@ -45,6 +51,12 @@
       <Filter>Source Files\tests</Filter>
     </ClCompile>
     <ClCompile Include="src\fxcg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\Test_Renderer.cpp">
+      <Filter>Source Files\tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fxcg_impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

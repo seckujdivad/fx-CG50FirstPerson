@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
+#include <display.h>
+#else
 #include <fxcg/display.h>
+#endif
 
 #include "World.h"
 #include "WorldTracing.h"

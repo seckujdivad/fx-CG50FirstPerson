@@ -2,7 +2,11 @@
 
 #include <stddef.h>
 
+#ifdef _WIN32
+#include <display.h>
+#else
 #include <fxcg/display.h>
+#endif
 
 #include "Vector.h"
 #include "MakeConst.h"

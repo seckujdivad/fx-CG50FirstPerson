@@ -1,8 +1,5 @@
 #include "Test_FindFirstIntersection.h"
 
-#include <wx/wx.h>
-#include <wx/gbsizer.h>
-#include <wx/button.h>
 #include <wx/dcbuffer.h>
 
 void Test_FindFirstIntersection::OnPaint(wxPaintEvent& evt)
@@ -97,13 +94,7 @@ void Test_FindFirstIntersection::OnMotion(wxMouseEvent& evt)
 
 Test_FindFirstIntersection::Test_FindFirstIntersection(wxWindow* parent) : wxPanel(parent)
 {
-	fxcg::GenerateWorld(this->m_world,
-		"OOXOO"
-		"OOOOO"
-		"XOOOX"
-		"OOOOO"
-		"OOXOO"
-	);
+	fxcg::GenerateWorld(this->m_world, fxcg::WORLD_GENERATOR);
 
 	this->SetBackgroundColour(*wxWHITE);
 
