@@ -13,33 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\test_FindFirstIntersection">
-      <UniqueIdentifier>{8ba9eeae-db63-431e-aa92-6cbd83df2c0e}</UniqueIdentifier>
+    <Filter Include="Header Files\tests">
+      <UniqueIdentifier>{79c6568a-7c24-4346-b3f8-1f6f1f5169eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\test_FindFirstIntersection">
-      <UniqueIdentifier>{916ad5cb-502c-46f4-a09e-e75b2d78f017}</UniqueIdentifier>
+    <Filter Include="Source Files\tests">
+      <UniqueIdentifier>{20127381-5b32-44a1-bdfc-1a5654fbd17b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
+    <ClInclude Include="src\tests\Test_FindFirstIntersection.h">
+      <Filter>Header Files\tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Main.h">
+    <ClInclude Include="src\Main.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test_FindFirstIntersection\Test_FindFirstIntersection.h">
-      <Filter>Header Files\test_FindFirstIntersection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
+    <ClCompile Include="src\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_FindFirstIntersection\Test_FindFirstIntersection.cpp">
-      <Filter>Source Files\test_FindFirstIntersection</Filter>
+    <ClCompile Include="src\tests\Test_FindFirstIntersection.cpp">
+      <Filter>Source Files\tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
