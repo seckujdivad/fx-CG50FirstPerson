@@ -128,9 +128,21 @@ inline T pow(T x, int y) //y must be > 0
 }
 
 template<typename T>
-inline constexpr T pow_constexpr(T x, int y) //y must be >= 0
+constexpr T pow_constexpr(T x, int y) //y must be >= 0
 {
 	return y == 0 ? 1 : x * pow_constexpr(x, y - 1);
 }
 
 float atan(float x);
+
+template<typename T>
+constexpr T radtodeg(T x)
+{
+	return x * (static_cast<T>(180) / PI<T>);
+}
+
+template<typename T>
+constexpr T degtorad(T x)
+{
+	return x * (PI<T> / static_cast<T>(180));
+}
