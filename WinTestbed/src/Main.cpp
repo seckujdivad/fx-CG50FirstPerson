@@ -3,7 +3,7 @@
 #include <wx/gbsizer.h>
 #include <wx/notebook.h>
 
-#include "test_FindFirstIntersection/Test_FindFirstIntersection.h"
+#include "tests/Test_FindFirstIntersection.h"
 
 Main::Main() : wxFrame(nullptr, wxID_ANY, "fx-CG50FirstPerson tests")
 {
