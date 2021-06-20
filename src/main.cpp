@@ -18,9 +18,7 @@ int main()
 	World<5, 5> world = {};
 	GenerateWorld(world, WORLD_GENERATOR);
 
-	Player player;
-	player.position = Vector<float, 2>(2.5f);
-	player.rotation = 0.0f;
+	Player player = PLAYER_INITIAL;
 
 	bool use_getkey = true;
 
