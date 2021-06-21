@@ -31,14 +31,14 @@ int main()
 
 		{
 			int rot_perc_x = LCD_WIDTH_PX * (player.rotation / (2.0f * PI<float>));
-			for (int x = 0; x < LCD_WIDTH_PX; x++)
+			for (int x = 0; x < LCD_WIDTH_PX; x += 2)
 			{
 				color_t colour = COLOR_WHITE;
 				if (x < rot_perc_x)
 				{
 					colour = COLOR_BLACK;
 				}
-				WriteToDisplay(x, LCD_HEIGHT_PX - 5, colour);
+				WritePixelPair(x, LCD_HEIGHT_PX - 1, colour);
 			}
 		}
 
