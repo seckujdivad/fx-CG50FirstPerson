@@ -12,51 +12,51 @@ color_t GetColour(WorldRegion region);
 template<unsigned int X, unsigned int Y>
 inline void Render(const World<X, Y>& world, const Player& player, const Sprite* sprites, size_t num_sprites)
 {
-	constexpr int BORDER_X = 20;
-	constexpr int BORDER_Y = 20;
+	constexpr int BORDER_X[] = { 20, 20 };
+	constexpr int BORDER_Y[] = { 20, 20 };
 
-	constexpr int SCREEN_HEIGHT = LCD_HEIGHT_PX - (2 * BORDER_Y);
-	constexpr int SCREEN_WIDTH = LCD_WIDTH_PX - (2 * BORDER_X);
+	constexpr int SCREEN_HEIGHT = LCD_HEIGHT_PX - (BORDER_Y[0] + BORDER_Y[1]);
+	constexpr int SCREEN_WIDTH = LCD_WIDTH_PX - (BORDER_X[0] + BORDER_X[1]);
 	
 	constexpr float SCREEN_HEIGHT_FL = static_cast<float>(SCREEN_HEIGHT);
 
 	constexpr float FOV = PI<float> * 0.5f;
 	constexpr float FOV_HALF = FOV * 0.5f;
-	constexpr float VIEW_ANGLE_INCREMENT = FOV / static_cast<float>(LCD_WIDTH_PX - (2 * BORDER_X));
+	constexpr float VIEW_ANGLE_INCREMENT = FOV / static_cast<float>(SCREEN_WIDTH);
 
 	float screen_inv_distances[SCREEN_WIDTH] = {};
 	color_t wall_colours[SCREEN_WIDTH] = {};
 
 	float view_angle = player.rotation - FOV_HALF;
-	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x++)
+	for (int x = BORDER_X[0]; x < LCD_WIDTH_PX - BORDER_X[1]; x++)
 	{
 		const WorldIntersection intersection = FindFirstIntersection(world, player.position, view_angle);
 		const Vector<float, 2> view_ray = intersection.position - player.position;
 
-		wall_colours[x - BORDER_X] = GetColour(intersection.region);
+		wall_colours[x - BORDER_X[0]] = GetColour(intersection.region);
 
-		screen_inv_distances[x - BORDER_X] = ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
+		screen_inv_distances[x - BORDER_X[0]] = ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
 			? (1.0f / 0.01f)
 			: view_ray.InverseLength();
 
 		view_angle += VIEW_ANGLE_INCREMENT;
 	}
 
-	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x += 2)
+	for (int x = BORDER_X[0]; x < LCD_WIDTH_PX - BORDER_X[1]; x += 2)
 	{
-		const int wall_inset_first = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X]) * SCREEN_HEIGHT_FL * 0.5f);
-		const int wall_inset_second = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X + 1]) * SCREEN_HEIGHT_FL * 0.5f);
+		const int wall_inset_first = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X[0]]) * SCREEN_HEIGHT_FL * 0.5f);
+		const int wall_inset_second = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X[0] + 1]) * SCREEN_HEIGHT_FL * 0.5f);
 
-		const color_t wall_colour_first = wall_colours[x - BORDER_X];
-		const color_t wall_colour_second = wall_colours[x - BORDER_X + 1];
+		const color_t wall_colour_first = wall_colours[x - BORDER_X[0]];
+		const color_t wall_colour_second = wall_colours[x - BORDER_X[0] + 1];
 
-		for (int y = BORDER_Y; y < LCD_HEIGHT_PX - BORDER_Y; y++)
+		for (int y = BORDER_Y[0]; y < LCD_HEIGHT_PX - BORDER_Y[1]; y++)
 		{
-			const color_t colour_first = (y < BORDER_Y + wall_inset_first) ? COLOR_GREEN
-				: ((y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_first) ? COLOR_BLUE : wall_colour_first);
+			const color_t colour_first = (y < BORDER_Y[0] + wall_inset_first) ? COLOR_GREEN
+				: ((y > LCD_HEIGHT_PX - BORDER_Y[1] - wall_inset_first) ? COLOR_BLUE : wall_colour_first);
 			
-			const color_t colour_second = (y < BORDER_Y + wall_inset_second) ? COLOR_GREEN
-				: ((y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_second) ? COLOR_BLUE : wall_colour_second);
+			const color_t colour_second = (y < BORDER_Y[0] + wall_inset_second) ? COLOR_GREEN
+				: ((y > LCD_HEIGHT_PX - BORDER_Y[1] - wall_inset_second) ? COLOR_BLUE : wall_colour_second);
 
 			WritePixelPair(x, y, colour_first, colour_second);
 		}
@@ -81,32 +81,32 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const float sprite_view_frac_start = (sprite_start_angle + FOV_HALF) / FOV;
 		const float sprite_view_frac_end = (sprite_end_angle + FOV_HALF) / FOV;
 
-		const int start_x = BORDER_X + static_cast<int>(sprite_view_frac_start * (LCD_WIDTH_PX - (2 * BORDER_X)));
-		const int end_x = BORDER_X + static_cast<int>(sprite_view_frac_end * (LCD_WIDTH_PX - (2 * BORDER_X)));
+		const int start_x = BORDER_X[0] + static_cast<int>(sprite_view_frac_start * SCREEN_WIDTH);
+		const int end_x = BORDER_X[0] + static_cast<int>(sprite_view_frac_end * SCREEN_WIDTH);
 
-		if ((end_x > BORDER_X) && (start_x < LCD_WIDTH_PX - BORDER_X))
+		if ((end_x > BORDER_X[0]) && (start_x < LCD_WIDTH_PX - BORDER_X[1]))
 		{
 			const int sprite_height = sprite.GetScale().GetY() * sprite.GetDimensions().GetY();
 			const float sprite_angle_height_half = static_cast<float>(sprite_height) * inverse_distance * (FOV_HALF / LCD_HEIGHT_PX);
-			const int sprite_px_height = static_cast<int>(sprite_angle_height_half * (LCD_HEIGHT_PX - (2 * BORDER_Y)));
-			const int sprite_height_extra_padding = min((LCD_HEIGHT_PX - (2 * BORDER_Y) - sprite_px_height) / 2, ((LCD_HEIGHT_PX - (2 * BORDER_Y)) / 2) - 1);
+			const int sprite_px_height = static_cast<int>(sprite_angle_height_half * SCREEN_HEIGHT);
+			const int sprite_height_extra_padding = min((SCREEN_HEIGHT - sprite_px_height) / 2, (SCREEN_HEIGHT / 2) - 1);
 
-			const int start_x_iteration = max(start_x, BORDER_X);
-			const int end_x_iteration = min(end_x, LCD_WIDTH_PX - BORDER_X);
+			const int start_x_iteration = max(start_x, BORDER_X[0]);
+			const int end_x_iteration = min(end_x, LCD_WIDTH_PX - BORDER_X[1]);
 
-			const int start_y = BORDER_Y + sprite_height_extra_padding;
-			const int end_y = LCD_HEIGHT_PX - BORDER_Y - sprite_height_extra_padding;
+			const int start_y = BORDER_Y[0] + sprite_height_extra_padding;
+			const int end_y = LCD_HEIGHT_PX - BORDER_Y[1] - sprite_height_extra_padding;
 
-			if ((end_y > BORDER_Y) && (start_y < LCD_HEIGHT_PX - BORDER_Y))
+			if ((end_y > BORDER_Y[0]) && (start_y < LCD_HEIGHT_PX - BORDER_Y[1]))
 			{
-				const int start_y_iteration = max(start_y, BORDER_Y);
-				const int end_y_iteration = min(end_y, LCD_HEIGHT_PX - BORDER_Y);
+				const int start_y_iteration = max(start_y, BORDER_Y[0]);
+				const int end_y_iteration = min(end_y, LCD_HEIGHT_PX - BORDER_Y[1]);
 
 				for (int x = start_x_iteration; x < end_x_iteration; x++)
 				{
-					if (screen_inv_distances[x - BORDER_X] < inverse_distance)
+					if (screen_inv_distances[x - BORDER_X[0]] < inverse_distance)
 					{
-						screen_inv_distances[x - BORDER_X] = inverse_distance;
+						screen_inv_distances[x - BORDER_X[0]] = inverse_distance;
 
 						Vector<int, 2> sprite_texel = Vector<int, 2>(0, 0);
 
