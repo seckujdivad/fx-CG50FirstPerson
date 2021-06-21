@@ -1,3 +1,5 @@
+#define IS_TESTBED 1
+
 //horrible solution, but I don't want to have to reimplement the entirety of PrizmSDK for wxWidgets
 #pragma warning(push, 0)
 namespace fxcg

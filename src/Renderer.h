@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _WIN32
+#if IS_TESTBED == 1
 #include <display.h>
 #else
 #include <fxcg/display.h>

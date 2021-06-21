@@ -1,5 +1,7 @@
 #pragma once
 
+#define IS_TESTBED 1
+
 namespace fxcg
 {
 #include "World.h"
