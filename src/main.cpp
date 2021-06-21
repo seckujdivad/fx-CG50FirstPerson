@@ -140,11 +140,11 @@ int main()
 
 		if (chosen_option == ChosenOption::RotateLeft)
 		{
-			player.rotation -= ROTATE_INCREMENT;
+			player.rotation += ROTATE_INCREMENT;
 		}
 		else if (chosen_option == ChosenOption::RotateRight)
 		{
-			player.rotation += ROTATE_INCREMENT;
+			player.rotation -= ROTATE_INCREMENT;
 		}
 		else if ((chosen_option == ChosenOption::MoveForward) || (chosen_option == ChosenOption::MoveBack))
 		{
@@ -166,13 +166,13 @@ int main()
 			Vector<float, 2> increment = 0.0f;
 			if (chosen_option == ChosenOption::MoveLeft)
 			{
-				increment.GetX() = cos(player.rotation - (PI<float> / 2.0f));
-				increment.GetY() = sin(player.rotation - (PI<float> / 2.0f));
+				increment.GetX() = cos(player.rotation + (PI<float> / 2.0f));
+				increment.GetY() = sin(player.rotation + (PI<float> / 2.0f));
 			}
 			else
 			{
-				increment.GetX() = cos(player.rotation + (PI<float> / 2.0f));
-				increment.GetY() = sin(player.rotation + (PI<float> / 2.0f));
+				increment.GetX() = cos(player.rotation - (PI<float> / 2.0f));
+				increment.GetY() = sin(player.rotation - (PI<float> / 2.0f));
 			}
 
 			increment *= MOVE_INCREMENT;

@@ -27,7 +27,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 	float screen_inv_distances[SCREEN_WIDTH] = {};
 	color_t wall_colours[SCREEN_WIDTH] = {};
 
-	float view_angle = player.rotation - FOV_HALF;
+	float view_angle = player.rotation + FOV_HALF;
 	for (int x = BORDER_X[0]; x < LCD_WIDTH_PX - BORDER_X[1]; x++)
 	{
 		const WorldIntersection intersection = FindFirstIntersection(world, player.position, view_angle);
@@ -39,7 +39,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 			? (1.0f / 0.01f)
 			: view_ray.InverseLength();
 
-		view_angle += VIEW_ANGLE_INCREMENT;
+		view_angle -= VIEW_ANGLE_INCREMENT;
 	}
 
 	for (int x = BORDER_X[0]; x < LCD_WIDTH_PX - BORDER_X[1]; x += 2)
@@ -73,7 +73,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const float sprite_angle_width_half = static_cast<float>(sprite_width) * inverse_distance * (FOV_HALF / LCD_WIDTH_PX);
 
 		const float sprite_angle = sprite_diff.GetAngle();
-		const float sprite_angle_diff = sprite_angle - player.rotation;
+		const float sprite_angle_diff = player.rotation - sprite_angle;
 
 		const float sprite_start_angle = sprite_angle_diff - sprite_angle_width_half;
 		const float sprite_end_angle = sprite_angle_diff + sprite_angle_width_half;
