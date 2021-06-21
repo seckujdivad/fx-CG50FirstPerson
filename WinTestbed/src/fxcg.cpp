@@ -10,5 +10,6 @@ namespace fxcg
 #include "Maths.cpp"
 #include "Sprite.cpp"
 #include "Renderer.cpp"
+#include "DisplayWriting.cpp"
 }
 #pragma warning(pop)

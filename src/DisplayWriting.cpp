@@ -4,7 +4,9 @@ color_t* VRAM_ADDRESS;
 
 void InitialiseVRAMAddress()
 {
+#if IS_TESTBED == 0
 	VRAM_ADDRESS = reinterpret_cast<color_t*>(GetVRAMAddress());
+#endif
 }
 
 void WriteToDisplay(int x, int y, color_t colour)
