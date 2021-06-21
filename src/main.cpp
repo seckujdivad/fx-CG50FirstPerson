@@ -14,6 +14,9 @@
 
 int main()
 {
+	constexpr float MOVE_INCREMENT = 0.25f;
+	constexpr float ROTATE_INCREMENT = PI<float> / 12.0f;
+
 	Bdisp_AllClr_VRAM();
 	InitialiseVRAMAddress();
 
@@ -64,6 +67,8 @@ int main()
 			RotateRight,
 			MoveForward,
 			MoveBack,
+			MoveLeft,
+			MoveRight,
 			ResetPosition
 		} chosen_option = ChosenOption::None;
 
@@ -78,6 +83,8 @@ int main()
 			case KEY_CHAR_6: chosen_option = ChosenOption::RotateRight; break;
 			case KEY_CHAR_8: chosen_option = ChosenOption::MoveForward; break;
 			case KEY_CHAR_2: chosen_option = ChosenOption::MoveBack; break;
+			case KEY_CHAR_7: chosen_option = ChosenOption::MoveLeft; break;
+			case KEY_CHAR_9: chosen_option = ChosenOption::MoveRight; break;
 			case KEY_CHAR_0: chosen_option = ChosenOption::ResetPosition; break;
 			}
 
@@ -108,6 +115,14 @@ int main()
 				{
 					chosen_option = ChosenOption::MoveBack;
 				}
+				else if (row == 0x05 && column == 0x07) //7
+				{
+					chosen_option = ChosenOption::MoveLeft;
+				}
+				else if (row == 0x05 && column == 0x05) //9
+				{
+					chosen_option = ChosenOption::MoveRight;
+				}
 				else if (row == 0x02 && column == 0x07) //0
 				{
 					chosen_option = ChosenOption::ResetPosition;
@@ -125,11 +140,11 @@ int main()
 
 		if (chosen_option == ChosenOption::RotateLeft)
 		{
-			player.rotation -= 0.25f;
+			player.rotation -= ROTATE_INCREMENT;
 		}
 		else if (chosen_option == ChosenOption::RotateRight)
 		{
-			player.rotation += 0.25f;
+			player.rotation += ROTATE_INCREMENT;
 		}
 		else if ((chosen_option == ChosenOption::MoveForward) || (chosen_option == ChosenOption::MoveBack))
 		{
@@ -137,7 +152,7 @@ int main()
 			increment.GetX() = cos(player.rotation);
 			increment.GetY() = sin(player.rotation);
 
-			increment *= 0.25f;
+			increment *= MOVE_INCREMENT;
 
 			if (chosen_option == ChosenOption::MoveBack)
 			{
@@ -146,10 +161,27 @@ int main()
 
 			player.position += increment;
 		}
+		else if ((chosen_option == ChosenOption::MoveLeft) || (chosen_option == ChosenOption::MoveRight))
+		{
+			Vector<float, 2> increment = 0.0f;
+			if (chosen_option == ChosenOption::MoveLeft)
+			{
+				increment.GetX() = cos(player.rotation - (PI<float> / 2.0f));
+				increment.GetY() = sin(player.rotation - (PI<float> / 2.0f));
+			}
+			else
+			{
+				increment.GetX() = cos(player.rotation + (PI<float> / 2.0f));
+				increment.GetY() = sin(player.rotation + (PI<float> / 2.0f));
+			}
+
+			increment *= MOVE_INCREMENT;
+
+			player.position += increment;
+		}
 		else if (chosen_option == ChosenOption::ResetPosition)
 		{
-			player.position = Vector<float, 2>(2.5f);
-			player.rotation = 0.0f;
+			player = PLAYER_INITIAL;
 		}
 		else if (chosen_option == ChosenOption::GoToGetKey)
 		{
