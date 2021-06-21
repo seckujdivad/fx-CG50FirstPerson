@@ -113,11 +113,11 @@ int main()
 
 		if (chosen_option == ChosenOption::RotateLeft)
 		{
-			player.rotation += 0.25f;
+			player.rotation -= 0.25f;
 		}
 		else if (chosen_option == ChosenOption::RotateRight)
 		{
-			player.rotation -= 0.25f;
+			player.rotation += 0.25f;
 		}
 		else if ((chosen_option == ChosenOption::MoveForward) || (chosen_option == ChosenOption::MoveBack))
 		{
