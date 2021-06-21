@@ -1,11 +1,6 @@
 #pragma once
 
-#if IS_TESTBED == 1
-#include <display.h>
-#else
-#include <fxcg/display.h>
-#endif
-
+#include "DisplayWriting.h"
 #include "World.h"
 #include "WorldTracing.h"
 #include "Player.h"
@@ -66,7 +61,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 			{
 				colour = wall_colour;
 			}
-			Bdisp_SetPoint_VRAM(x, y, colour);
+			WriteToDisplay(x, y, colour);
 		}
 	}
 
@@ -128,7 +123,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 							if (AccessMatrix(sprite_texel, sprite.GetAlphaMask(), sprite.GetDimensions().GetY()))
 							{
 								color_t pixel_colour = AccessMatrix(sprite_texel, sprite.GetRawData(), sprite.GetDimensions().GetY());
-								Bdisp_SetPoint_VRAM(x, y, pixel_colour);
+								WriteToDisplay(x, y, pixel_colour);
 							}
 						}
 					}

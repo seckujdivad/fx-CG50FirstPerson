@@ -40,6 +40,7 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DisplayWriting.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Maths.cpp" />
     <ClCompile Include="src\Q_rsqrt.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="src\WorldTracing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DisplayWriting.h" />
     <ClInclude Include="src\enable_if.h" />
     <ClInclude Include="src\MakeConst.h" />
     <ClInclude Include="src\Maths.h" />

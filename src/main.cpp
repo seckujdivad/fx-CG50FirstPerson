@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Maths.h"
 #include "WorldLayout.h"
+#include "DisplayWriting.h"
 
 /* CPU: https://en.wikipedia.org/wiki/SuperH#SH-4_2
 * PrizmSDK: https://prizm.cemetech.net/index.php?title=Prizm_Programming_Portal
@@ -14,6 +15,7 @@
 int main()
 {
 	Bdisp_AllClr_VRAM();
+	InitialiseVRAMAddress();
 
 	World<5, 5> world = {};
 	GenerateWorld(world, WORLD_GENERATOR);
@@ -36,7 +38,7 @@ int main()
 				{
 					colour = COLOR_BLACK;
 				}
-				Bdisp_SetPoint_VRAM(x, LCD_HEIGHT_PX - 5, colour);
+				WriteToDisplay(x, LCD_HEIGHT_PX - 5, colour);
 			}
 		}
 
