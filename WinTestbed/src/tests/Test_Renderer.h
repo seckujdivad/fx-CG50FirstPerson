@@ -1,10 +1,12 @@
 #pragma once
 
 #include <wx/panel.h>
+#include <wx/dcbuffer.h>
 
 #include "../fxcg.h"
 
 class wxGridBagSizer;
+class wxSlider;
 
 class Test_Renderer : public wxPanel
 {
@@ -25,6 +27,8 @@ private:
 	void sld_player_rotation_OnSlide(wxCommandEvent& evt);
 	void sld_player_x_OnSlide(wxCommandEvent& evt);
 	void sld_player_y_OnSlide(wxCommandEvent& evt);
+
+	static void SetBrush(unsigned short colour, wxBufferedPaintDC& paint_dc);
 
 public:
 	Test_Renderer(wxWindow* parent);

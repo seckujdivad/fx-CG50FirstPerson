@@ -31,14 +31,10 @@ void WritePixelPair(int x, int y, color_t colour)
 #endif
 }
 
+#if IS_TESTBED == 0
 void WritePixelPair(int x, int y, color_t colour_first, color_t colour_second)
 {
-#if IS_TESTBED == 0
 	two_col_t* VRAM_INTS = reinterpret_cast<two_col_t*>(VRAM_ADDRESS);
 	VRAM_INTS[(y * ROW_WIDTH) + (x / 2)] = (static_cast<two_col_t>(colour_first) << 16) | static_cast<two_col_t>(colour_second);
-#else
-	int x_first = (x & 2 == 0) ? x : x - 1;
-	Bdisp_SetPoint_VRAM(x_first, y, static_cast<int>(colour_first));
-	Bdisp_SetPoint_VRAM(x_first + 1, y, static_cast<int>(colour_second));
-#endif
 }
+#endif

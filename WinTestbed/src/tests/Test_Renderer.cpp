@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include <wx/dcbuffer.h>
+
 #include <wx/gbsizer.h>
 #include <wx/slider.h>
 
@@ -28,30 +28,26 @@ void Test_Renderer::OnPaint(wxPaintEvent& evt)
 
 	AddCallback([&paint_dc](int x, int y, int colour)
 		{
-			using color_t = fxcg::color_t;
-
-#ifdef COLOUR_ADDER
-#error Macro already defined
-#endif
-
-#define COLOUR_ADDER(name) case COLOR_ ## name: paint_dc.SetBrush(*wx ## name ## _BRUSH); break;
-
-			switch (colour)
-			{
-				COLOUR_ADDER(RED)
-				COLOUR_ADDER(GREEN)
-				COLOUR_ADDER(BLUE)
-				COLOUR_ADDER(BLACK)
-			case COLOR_ORANGE: paint_dc.SetBrush(*wxYELLOW_BRUSH); break;
-			case COLOR_BROWN: paint_dc.SetBrush(*wxMEDIUM_GREY_BRUSH); break;
-			case COLOR_PURPLE: paint_dc.SetBrush(*wxCYAN_BRUSH); break;
-			default: throw std::runtime_error("Unknown colour");
-			};
-
+			Test_Renderer::SetBrush(colour, paint_dc);
 			paint_dc.DrawRectangle(wxRect(x, y, 1, 1));
 		});
 
-#undef COLOUR_ADDER
+	AddCallback([&paint_dc](int x, int y, int colour_first, int colour_second)
+		{
+			if (colour_first == colour_second)
+			{
+				Test_Renderer::SetBrush(colour_first, paint_dc);
+				paint_dc.DrawRectangle(wxRect(x, y, 2, 1));
+			}
+			else
+			{
+				Test_Renderer::SetBrush(colour_first, paint_dc);
+				paint_dc.DrawRectangle(wxRect(x, y, 1, 1));
+
+				Test_Renderer::SetBrush(colour_second, paint_dc);
+				paint_dc.DrawRectangle(wxRect(x + 1, y, 1, 1));
+			}
+		});
 
 	fxcg::Render(this->m_world, this->m_player, fxcg::SPRITES, fxcg::NUM_SPRITES);
 
@@ -79,6 +75,31 @@ void Test_Renderer::sld_player_y_OnSlide(wxCommandEvent& evt)
 {
 	this->m_player.position.GetY() = SliderToValue(evt.GetInt());
 	this->Refresh();
+}
+
+void Test_Renderer::SetBrush(unsigned short colour, wxBufferedPaintDC& paint_dc)
+{
+	using color_t = fxcg::color_t;
+
+#ifdef COLOUR_ADDER
+#error Macro already defined
+#endif
+
+#define COLOUR_ADDER(name) case COLOR_ ## name: paint_dc.SetBrush(*wx ## name ## _BRUSH); break;
+
+	switch (colour)
+	{
+		COLOUR_ADDER(RED)
+		COLOUR_ADDER(GREEN)
+		COLOUR_ADDER(BLUE)
+		COLOUR_ADDER(BLACK)
+	case COLOR_ORANGE: paint_dc.SetBrush(*wxYELLOW_BRUSH); break;
+	case COLOR_BROWN: paint_dc.SetBrush(*wxMEDIUM_GREY_BRUSH); break;
+	case COLOR_PURPLE: paint_dc.SetBrush(*wxCYAN_BRUSH); break;
+	default: throw std::runtime_error("Unknown colour");
+	};
+
+#undef COLOUR_ADDER
 }
 
 Test_Renderer::Test_Renderer(wxWindow* parent) : wxPanel(parent)
