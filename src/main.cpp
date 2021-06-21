@@ -76,12 +76,12 @@ int main()
 
 			switch (key)
 			{
-			case KEY_CHAR_4: chosen_option = ChosenOption::RotateLeft; break;
-			case KEY_CHAR_6: chosen_option = ChosenOption::RotateRight; break;
+			case KEY_CHAR_4: chosen_option = ChosenOption::MoveLeft; break;
+			case KEY_CHAR_6: chosen_option = ChosenOption::MoveRight; break;
 			case KEY_CHAR_8: chosen_option = ChosenOption::MoveForward; break;
 			case KEY_CHAR_2: chosen_option = ChosenOption::MoveBack; break;
-			case KEY_CHAR_7: chosen_option = ChosenOption::MoveLeft; break;
-			case KEY_CHAR_9: chosen_option = ChosenOption::MoveRight; break;
+			case KEY_CHAR_7: chosen_option = ChosenOption::RotateLeft; break;
+			case KEY_CHAR_9: chosen_option = ChosenOption::RotateRight; break;
 			case KEY_CHAR_0: chosen_option = ChosenOption::ResetPosition; break;
 			}
 
@@ -98,11 +98,11 @@ int main()
 			{
 				if (row == 0x04 && column == 0x07) //4
 				{
-					chosen_option = ChosenOption::RotateLeft;
+					chosen_option = ChosenOption::MoveLeft;
 				}
 				else if (row == 0x04 && column == 0x05) //6
 				{
-					chosen_option = ChosenOption::RotateRight;
+					chosen_option = ChosenOption::MoveRight;
 				}
 				else if (row == 0x05 && column == 0x06) //8
 				{
@@ -114,11 +114,11 @@ int main()
 				}
 				else if (row == 0x05 && column == 0x07) //7
 				{
-					chosen_option = ChosenOption::MoveLeft;
+					chosen_option = ChosenOption::RotateLeft;
 				}
 				else if (row == 0x05 && column == 0x05) //9
 				{
-					chosen_option = ChosenOption::MoveRight;
+					chosen_option = ChosenOption::RotateRight;
 				}
 				else if (row == 0x02 && column == 0x07) //0
 				{
