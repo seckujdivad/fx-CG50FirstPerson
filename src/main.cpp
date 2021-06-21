@@ -14,9 +14,6 @@
 
 int main()
 {
-	constexpr float MOVE_INCREMENT = 0.25f;
-	constexpr float ROTATE_INCREMENT = PI<float> / 12.0f;
-
 	Bdisp_AllClr_VRAM();
 	InitialiseVRAMAddress();
 
@@ -140,27 +137,27 @@ int main()
 
 		if (chosen_option == ChosenOption::RotateLeft)
 		{
-			player.rotation += ROTATE_INCREMENT;
+			player.rotation += PLAYER_ROTATE_INCREMENT;
 		}
 		else if (chosen_option == ChosenOption::RotateRight)
 		{
-			player.rotation -= ROTATE_INCREMENT;
+			player.rotation -= PLAYER_ROTATE_INCREMENT;
 		}
 		else if (chosen_option == ChosenOption::MoveForward)
 		{
-			player.MoveLocally(Vector<float, 2>(0.0f, MOVE_INCREMENT));
+			player.MoveLocally(Vector<float, 2>(0.0f, PLAYER_MOVE_INCREMENT));
 		}
 		else if (chosen_option == ChosenOption::MoveBack)
 		{
-			player.MoveLocally(Vector<float, 2>(0.0f, 0.0f - MOVE_INCREMENT));
+			player.MoveLocally(Vector<float, 2>(0.0f, 0.0f - PLAYER_MOVE_INCREMENT));
 		}
 		else if (chosen_option == ChosenOption::MoveRight)
 		{
-			player.MoveLocally(Vector<float, 2>(MOVE_INCREMENT, 0.0f));
+			player.MoveLocally(Vector<float, 2>(PLAYER_MOVE_INCREMENT, 0.0f));
 		}
 		else if (chosen_option == ChosenOption::MoveLeft)
 		{
-			player.MoveLocally(Vector<float, 2>(0.0f - MOVE_INCREMENT, 0.0f));
+			player.MoveLocally(Vector<float, 2>(0.0f - PLAYER_MOVE_INCREMENT, 0.0f));
 		}
 		else if (chosen_option == ChosenOption::ResetPosition)
 		{
