@@ -11,5 +11,6 @@ namespace fxcg
 #include "Sprite.cpp"
 #include "Renderer.cpp"
 #include "DisplayWriting.cpp"
+#include "Player.cpp"
 }
 #pragma warning(pop)

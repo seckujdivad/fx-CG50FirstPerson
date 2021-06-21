@@ -2,6 +2,7 @@
 
 #include <wx/panel.h>
 #include <wx/dcbuffer.h>
+#include <wx/timer.h>
 
 #include "../fxcg.h"
 
@@ -24,6 +25,9 @@ private:
 	void OnPaint(wxPaintEvent& evt);
 	void OnSize(wxSizeEvent& evt);
 
+	wxTimer* m_timer_mainloop;
+	void OnMainloop(wxTimerEvent& evt);
+
 	void sld_player_rotation_OnSlide(wxCommandEvent& evt);
 	void sld_player_x_OnSlide(wxCommandEvent& evt);
 	void sld_player_y_OnSlide(wxCommandEvent& evt);
@@ -32,4 +36,5 @@ private:
 
 public:
 	Test_Renderer(wxWindow* parent);
+	~Test_Renderer();
 };

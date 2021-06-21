@@ -59,6 +59,56 @@ void Test_Renderer::OnSize(wxSizeEvent& evt)
 	this->Refresh();
 }
 
+void Test_Renderer::OnMainloop(wxTimerEvent& evt)
+{
+	this->m_timer_mainloop->Stop();
+
+	bool redraw = false;
+	if (wxGetKeyState(wxKeyCode('D')))
+	{
+		this->m_player.MoveLocally(fxcg::Vector<float, 2>(fxcg::PLAYER_MOVE_INCREMENT, 0.0f));
+		redraw = true;
+	}
+
+	if (wxGetKeyState(wxKeyCode('A')))
+	{
+		this->m_player.MoveLocally(fxcg::Vector<float, 2>(0.0f - fxcg::PLAYER_MOVE_INCREMENT, 0.0f));
+		redraw = true;
+	}
+
+	if (wxGetKeyState(wxKeyCode('W')))
+	{
+		this->m_player.MoveLocally(fxcg::Vector<float, 2>(0.0f, fxcg::PLAYER_MOVE_INCREMENT));
+		redraw = true;
+	}
+
+	if (wxGetKeyState(wxKeyCode('S')))
+	{
+		this->m_player.MoveLocally(fxcg::Vector<float, 2>(0.0f, 0.0f - fxcg::PLAYER_MOVE_INCREMENT));
+		redraw = true;
+	}
+
+	if (wxGetKeyState(wxKeyCode('Q')))
+	{
+		this->m_player.rotation = fxcg::fmod(this->m_player.rotation + fxcg::PLAYER_ROTATE_INCREMENT, 2.0f * fxcg::PI<float>);
+		redraw = true;
+	}
+
+	if (wxGetKeyState(wxKeyCode('E')))
+	{
+		this->m_player.rotation = fxcg::fmod(this->m_player.rotation - fxcg::PLAYER_ROTATE_INCREMENT, 2.0f * fxcg::PI<float>);
+		redraw = true;
+	}
+
+	if (redraw)
+	{
+		this->Refresh();
+	}
+
+	this->m_timer_mainloop->Start();
+	evt.Skip();
+}
+
 void Test_Renderer::sld_player_rotation_OnSlide(wxCommandEvent& evt)
 {
 	this->m_player.rotation = fxcg::degtorad(static_cast<float>(evt.GetInt()));
@@ -136,4 +186,14 @@ Test_Renderer::Test_Renderer(wxWindow* parent) : wxPanel(parent)
 	this->SetSizer(this->m_sizer);
 	this->Centre(wxBOTH);
 	this->Layout();
+
+	this->m_timer_mainloop = new wxTimer(this);
+	this->Bind(wxEVT_TIMER, &Test_Renderer::OnMainloop, this);
+	this->m_timer_mainloop->Start(10);
+}
+
+Test_Renderer::~Test_Renderer()
+{
+	this->m_timer_mainloop->Stop();
+	delete this->m_timer_mainloop;
 }
