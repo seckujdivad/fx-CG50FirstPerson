@@ -134,7 +134,33 @@ float atan(float x)
     }
     else
     {
-        float tan_frac = static_cast<float>(FindNearestIndex(x)) / static_cast<float>(NUM_TAN_VALUES);
+        int nearest_index = FindNearestIndex(x);
+        float best_frac_unnormalised = 0.0f;
+        if ((nearest_index > 0) && (nearest_index < NUM_TAN_VALUES - 1)) //linearly interpolate between two values if possible (not possible if the best value is an end value)
+        {
+            int index_below = 0;
+            int index_above = 0;
+            if (TAN_VALUES[nearest_index] < x)
+            {
+                index_below = nearest_index;
+                index_above = nearest_index + 1;
+            }
+            else
+            {
+                index_below = nearest_index - 1;
+                index_above = nearest_index;
+            }
+
+            float value_below = TAN_VALUES[index_below];
+            float value_above = TAN_VALUES[index_above];
+
+            best_frac_unnormalised = static_cast<float>(index_below) + ((x - value_below) / (value_above - value_below));
+        }
+        else
+        {
+            best_frac_unnormalised = static_cast<float>(nearest_index);
+        }
+        float tan_frac = best_frac_unnormalised / static_cast<float>(NUM_TAN_VALUES);
         return tan_frac * 0.5f * PI<float>;
     }
 }
