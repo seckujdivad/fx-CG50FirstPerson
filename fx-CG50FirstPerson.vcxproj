@@ -43,6 +43,7 @@
     <ClCompile Include="src\DisplayWriting.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Maths.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Q_rsqrt.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Sprite.cpp" />

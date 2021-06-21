@@ -146,38 +146,21 @@ int main()
 		{
 			player.rotation -= ROTATE_INCREMENT;
 		}
-		else if ((chosen_option == ChosenOption::MoveForward) || (chosen_option == ChosenOption::MoveBack))
+		else if (chosen_option == ChosenOption::MoveForward)
 		{
-			Vector<float, 2> increment = 0.0f;
-			increment.GetX() = cos(player.rotation);
-			increment.GetY() = sin(player.rotation);
-
-			increment *= MOVE_INCREMENT;
-
-			if (chosen_option == ChosenOption::MoveBack)
-			{
-				increment *= -1.0f;
-			}
-
-			player.position += increment;
+			player.MoveLocally(Vector<float, 2>(0.0f, MOVE_INCREMENT));
 		}
-		else if ((chosen_option == ChosenOption::MoveLeft) || (chosen_option == ChosenOption::MoveRight))
+		else if (chosen_option == ChosenOption::MoveBack)
 		{
-			Vector<float, 2> increment = 0.0f;
-			if (chosen_option == ChosenOption::MoveLeft)
-			{
-				increment.GetX() = cos(player.rotation + (PI<float> / 2.0f));
-				increment.GetY() = sin(player.rotation + (PI<float> / 2.0f));
-			}
-			else
-			{
-				increment.GetX() = cos(player.rotation - (PI<float> / 2.0f));
-				increment.GetY() = sin(player.rotation - (PI<float> / 2.0f));
-			}
-
-			increment *= MOVE_INCREMENT;
-
-			player.position += increment;
+			player.MoveLocally(Vector<float, 2>(0.0f, 0.0f - MOVE_INCREMENT));
+		}
+		else if (chosen_option == ChosenOption::MoveRight)
+		{
+			player.MoveLocally(Vector<float, 2>(MOVE_INCREMENT, 0.0f));
+		}
+		else if (chosen_option == ChosenOption::MoveLeft)
+		{
+			player.MoveLocally(Vector<float, 2>(0.0f - MOVE_INCREMENT, 0.0f));
 		}
 		else if (chosen_option == ChosenOption::ResetPosition)
 		{
