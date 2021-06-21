@@ -78,8 +78,8 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const float sprite_start_angle = 0.0f - sprite_angle_width_half - sprite_angle_diff;
 		const float sprite_end_angle = sprite_angle_width_half - sprite_angle_diff;
 
-		const float sprite_view_frac_start = (sprite_start_angle + FOV_HALF) / FOV;
-		const float sprite_view_frac_end = (sprite_end_angle + FOV_HALF) / FOV;
+		const float sprite_view_frac_start = 0.5f + (sprite_start_angle / FOV);
+		const float sprite_view_frac_end = 0.5f + (sprite_end_angle / FOV);
 
 		const int start_x = BORDER_X[0] + static_cast<int>(sprite_view_frac_start * SCREEN_WIDTH);
 		const int end_x = BORDER_X[0] + static_cast<int>(sprite_view_frac_end * SCREEN_WIDTH);
