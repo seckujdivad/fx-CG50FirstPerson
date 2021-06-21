@@ -6,11 +6,11 @@
 #include "Player.h"
 
 constexpr char WORLD_GENERATOR[] =
-	"OOXOO"
+	"OOXOO"  //(-x, -y)    (x, -y)
 	"OOOOO"
 	"XOOOX"
 	"OOOOO"
-	"OOXOO";
+	"OOXOO"; //(-x, y)      (x, y)
 
 constexpr Sprite SPRITES[] = {
 	Sprite(Sprites::RedCross, Vector<float, 2>(0.5f, 0.5f))
