@@ -36,6 +36,22 @@ double cos(double x)
 	return sin(x + (PI<> / 2.0));
 }
 
+/* tan values generator
+#include <iostream>
+#include <cmath>
+#include <string>
+
+int main()
+{
+    constexpr int NUM_VALUES = 20;
+    for (int i = 0; i < NUM_VALUES; i++)
+    {
+        const float x = (static_cast<float>(i) / NUM_VALUES) * (M_PI / 2.0);
+        std::cout << std::to_string(tan(x)) << ',' << std::endl;
+    }
+}
+*/
+
 constexpr float TAN_VALUES[] = {
     0.000000,
     0.078702,
@@ -50,13 +66,13 @@ constexpr float TAN_VALUES[] = {
     1.000000,
     1.170850,
     1.376382,
-    1.631852,
+    1.631851,
     1.962610,
     2.414214,
     3.077684,
-    4.165300,
-    6.313750,
-    12.706202
+    4.165301,
+    6.313751,
+    12.706207,
 };
 constexpr int NUM_TAN_VALUES = sizeof(TAN_VALUES) / sizeof(float);
 
