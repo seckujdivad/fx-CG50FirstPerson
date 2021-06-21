@@ -40,10 +40,9 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 
 		wall_colours[x - BORDER_X] = GetColour(intersection.region);
 
-		const float inverse_distance = ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
+		screen_inv_distances[x - BORDER_X] = ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
 			? (1.0f / 0.01f)
 			: view_ray.InverseLength();
-		screen_inv_distances[x - BORDER_X] = inverse_distance;
 	}
 
 	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x += 2)
@@ -51,35 +50,16 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const int wall_inset_first = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X]) * SCREEN_HEIGHT_FL * 0.5f);
 		const int wall_inset_second = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X + 1]) * SCREEN_HEIGHT_FL * 0.5f);
 
+		const color_t wall_colour_first = wall_colours[x - BORDER_X];
+		const color_t wall_colour_second = wall_colours[x - BORDER_X + 1];
+
 		for (int y = BORDER_Y; y < LCD_HEIGHT_PX - BORDER_Y; y++)
 		{
-			color_t colour_first = COLOR_RED;
-			if (y < BORDER_Y + wall_inset_first)
-			{
-				colour_first = COLOR_GREEN;
-			}
-			else if (y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_first)
-			{
-				colour_first = COLOR_BLUE;
-			}
-			else
-			{
-				colour_first = wall_colours[x - BORDER_X];
-			}
-
-			color_t colour_second = COLOR_RED;
-			if (y < BORDER_Y + wall_inset_second)
-			{
-				colour_second = COLOR_GREEN;
-			}
-			else if (y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_second)
-			{
-				colour_second = COLOR_BLUE;
-			}
-			else
-			{
-				colour_second = wall_colours[x - BORDER_X + 1];
-			}
+			const color_t colour_first = (y < BORDER_Y + wall_inset_first) ? COLOR_GREEN
+				: ((y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_first) ? COLOR_BLUE : wall_colour_first);
+			
+			const color_t colour_second = (y < BORDER_Y + wall_inset_second) ? COLOR_GREEN
+				: ((y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_second) ? COLOR_BLUE : wall_colour_second);
 
 			WritePixelPair(x, y, colour_first, colour_second);
 		}
