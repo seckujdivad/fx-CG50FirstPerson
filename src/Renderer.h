@@ -24,6 +24,7 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 	constexpr float FOV_HALF = FOV * 0.5f;
 
 	float screen_inv_distances[SCREEN_WIDTH] = {};
+	color_t wall_colours[SCREEN_WIDTH] = {};
 
 	//anticlockwise
 	const float view_angle_start = player.rotation + FOV_HALF;
@@ -37,31 +38,50 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 		const WorldIntersection intersection = FindFirstIntersection(world, player.position, view_angle);
 		const Vector<float, 2> view_ray = intersection.position - player.position;
 
-		const color_t wall_colour = GetColour(intersection.region);
+		wall_colours[x - BORDER_X] = GetColour(intersection.region);
 
 		const float inverse_distance = ((fabs(view_ray.GetX()) < 0.01f) && (fabs(view_ray.GetY()) < 0.01f))
 			? (1.0f / 0.01f)
 			: view_ray.InverseLength();
 		screen_inv_distances[x - BORDER_X] = inverse_distance;
-		
-		const int wall_inset = static_cast<int>((1.0f - inverse_distance) * SCREEN_HEIGHT_FL * 0.5f);
+	}
+
+	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x += 2)
+	{
+		const int wall_inset_first = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X]) * SCREEN_HEIGHT_FL * 0.5f);
+		const int wall_inset_second = static_cast<int>((1.0f - screen_inv_distances[x - BORDER_X + 1]) * SCREEN_HEIGHT_FL * 0.5f);
 
 		for (int y = BORDER_Y; y < LCD_HEIGHT_PX - BORDER_Y; y++)
 		{
-			color_t colour = COLOR_RED;
-			if (y < BORDER_Y + wall_inset)
+			color_t colour_first = COLOR_RED;
+			if (y < BORDER_Y + wall_inset_first)
 			{
-				colour = COLOR_GREEN;
+				colour_first = COLOR_GREEN;
 			}
-			else if (y > LCD_HEIGHT_PX - BORDER_Y - wall_inset)
+			else if (y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_first)
 			{
-				colour = COLOR_BLUE;
+				colour_first = COLOR_BLUE;
 			}
 			else
 			{
-				colour = wall_colour;
+				colour_first = wall_colours[x - BORDER_X];
 			}
-			WriteToDisplay(x, y, colour);
+
+			color_t colour_second = COLOR_RED;
+			if (y < BORDER_Y + wall_inset_second)
+			{
+				colour_second = COLOR_GREEN;
+			}
+			else if (y > LCD_HEIGHT_PX - BORDER_Y - wall_inset_second)
+			{
+				colour_second = COLOR_BLUE;
+			}
+			else
+			{
+				colour_second = wall_colours[x - BORDER_X + 1];
+			}
+
+			WritePixelPair(x, y, colour_first, colour_second);
 		}
 	}
 
