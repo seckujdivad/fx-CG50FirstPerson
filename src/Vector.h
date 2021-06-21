@@ -94,10 +94,7 @@ struct Vector
 	inline Vector<BaseType, dimensions> operator+(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
-		for (unsigned int i = 0; i < dimensions; i++)
-		{
-			result.values[i] += rhs.values[i];
-		}
+		result += rhs;
 		return result;
 	}
 
@@ -113,10 +110,7 @@ struct Vector
 	inline Vector<BaseType, dimensions> operator-(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
-		for (unsigned int i = 0; i < dimensions; i++)
-		{
-			result.values[i] -= rhs.values[i];
-		}
+		result -= rhs;
 		return result;
 	}
 
@@ -132,10 +126,7 @@ struct Vector
 	inline Vector<BaseType, dimensions> operator*(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
-		for (unsigned int i = 0; i < dimensions; i++)
-		{
-			result.values[i] *= rhs.values[i];
-		}
+		result *= rhs;
 		return result;
 	}
 
@@ -151,10 +142,7 @@ struct Vector
 	inline Vector<BaseType, dimensions> operator/(const Vector<BaseType, dimensions>& rhs) const
 	{
 		Vector<BaseType, dimensions> result = *this;
-		for (unsigned int i = 0; i < dimensions; i++)
-		{
-			result.values[i] /= rhs.values[i];
-		}
+		result /= rhs;
 		return result;
 	}
 
