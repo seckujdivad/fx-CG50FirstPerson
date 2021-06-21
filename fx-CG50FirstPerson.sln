@@ -7,6 +7,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fx-CG50FirstPerson", "fx-CG
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinTestbed", "WinTestbed\WinTestbed.vcxproj", "{8A767964-CEBD-4F4E-9FEC-0BDD9E301672}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A46ABFD1-AFB3-442E-9DFE-8FBF3954036A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		fx-CG50FirstPerson.bin = fx-CG50FirstPerson.bin
+		fx-CG50FirstPerson.g3a = fx-CG50FirstPerson.g3a
+		Makefile = Makefile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|fx-CG50 = Debug|fx-CG50
