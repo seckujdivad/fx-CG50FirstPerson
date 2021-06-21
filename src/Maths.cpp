@@ -84,7 +84,7 @@ int FindNearestIndex(float ref, int min, int max)
     }
     else
     {
-        int middle = min + ((max - min) / 2);
+        const int middle = min + ((max - min) / 2);
         if (TAN_VALUES[middle] < ref)
         {
             if (TAN_VALUES[middle + 1] > ref)
@@ -151,8 +151,8 @@ float atan(float x)
                 index_above = nearest_index;
             }
 
-            float value_below = TAN_VALUES[index_below];
-            float value_above = TAN_VALUES[index_above];
+            const float value_below = TAN_VALUES[index_below];
+            const float value_above = TAN_VALUES[index_above];
 
             best_frac_unnormalised = static_cast<float>(index_below) + ((x - value_below) / (value_above - value_below));
         }
@@ -160,7 +160,8 @@ float atan(float x)
         {
             best_frac_unnormalised = static_cast<float>(nearest_index);
         }
-        float tan_frac = best_frac_unnormalised / static_cast<float>(NUM_TAN_VALUES);
+
+        const float tan_frac = best_frac_unnormalised / static_cast<float>(NUM_TAN_VALUES);
         return tan_frac * 0.5f * PI<float>;
     }
 }

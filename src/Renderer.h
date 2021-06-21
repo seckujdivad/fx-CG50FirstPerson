@@ -26,8 +26,8 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 	float screen_inv_distances[SCREEN_WIDTH] = {};
 
 	//anticlockwise
-	float view_angle_start = player.rotation + FOV_HALF;
-	float view_angle_end = player.rotation - FOV_HALF;
+	const float view_angle_start = player.rotation + FOV_HALF;
+	const float view_angle_end = player.rotation - FOV_HALF;
 
 	for (int x = BORDER_X; x < LCD_WIDTH_PX - BORDER_X; x++)
 	{
@@ -113,17 +113,16 @@ inline void Render(const World<X, Y>& world, const Player& player, const Sprite*
 
 						Vector<int, 2> sprite_texel = Vector<int, 2>(0, 0);
 
-						float sprite_frac_x = static_cast<float>(x - start_x) / static_cast<float>(end_x - start_x);
+						const float sprite_frac_x = static_cast<float>(x - start_x) / static_cast<float>(end_x - start_x);
 						sprite_texel.GetX() = static_cast<int>(sprite_frac_x * sprite.GetDimensions().GetX());
 						for (int y = start_y_iteration; y < end_y_iteration; y++)
 						{
-							float sprite_frac_y = static_cast<float>(y - start_y) / static_cast<float>(end_y - start_y);
+							const float sprite_frac_y = static_cast<float>(y - start_y) / static_cast<float>(end_y - start_y);
 							sprite_texel.GetY() = static_cast<int>(sprite_frac_y * sprite.GetDimensions().GetY());
 
 							if (AccessMatrix(sprite_texel, sprite.GetAlphaMask(), sprite.GetDimensions().GetY()))
 							{
-								color_t pixel_colour = AccessMatrix(sprite_texel, sprite.GetRawData(), sprite.GetDimensions().GetY());
-								WriteToDisplay(x, y, pixel_colour);
+								WriteToDisplay(x, y, AccessMatrix(sprite_texel, sprite.GetRawData(), sprite.GetDimensions().GetY()));
 							}
 						}
 					}
