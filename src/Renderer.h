@@ -12,8 +12,8 @@ color_t GetColour(WorldRegion region);
 template<unsigned int X, unsigned int Y>
 inline void Render(const World<X, Y>& world, const Player& player, const Sprite* sprites, size_t num_sprites)
 {
-	constexpr int BORDER_X[] = { 20, 20 };
-	constexpr int BORDER_Y[] = { 20, 20 };
+	constexpr int BORDER_X[] = { 0, 0 };
+	constexpr int BORDER_Y[] = { 23 + 5, 1 }; //23 px for the status bar plus a 5 px border
 
 	constexpr int SCREEN_HEIGHT = LCD_HEIGHT_PX - (BORDER_Y[0] + BORDER_Y[1]);
 	constexpr int SCREEN_WIDTH = LCD_WIDTH_PX - (BORDER_X[0] + BORDER_X[1]);

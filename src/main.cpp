@@ -17,6 +17,18 @@ int main()
 	Bdisp_AllClr_VRAM();
 	InitialiseVRAMAddress();
 
+	{
+		EnableStatusArea(0); //enable status area
+
+		DefineStatusAreaFlags(3, SAF_BATTERY | SAF_TEXT, 0, 0);
+
+		char status_message[] = "First Person Ray-Caster"; //30 chars max, centre is at the 15th char
+		DefineStatusMessage(status_message, 0, TEXT_COLOR_BLACK, 0);
+
+		DisplayStatusArea();
+		EnableStatusArea(3); //disable status area so that it isn't continuously redrawn by GetKey
+	}
+
 	World<5, 5> world = {};
 	GenerateWorld(world, WORLD_GENERATOR);
 
